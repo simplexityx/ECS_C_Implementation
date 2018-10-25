@@ -13,7 +13,6 @@ int main(){
     entities_t *entity3 = entities_create();
     entities_t *entity4 = entities_create();
     
-    int arg[3] = {20, 250, 2};
 
     add_component(entity, Transform, transform_create(250, 520, 2));
     add_component(entity1, Transform, transform_create(100, 890, 2));

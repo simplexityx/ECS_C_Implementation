@@ -4,6 +4,11 @@
 #include "headers.h"
 #define GROUPMAX    32
 
+typedef enum operation{
+    UPDATE,
+    DRAW
+}operation_t;
+
 typedef struct group group_t;
 typedef struct manager manager_t;
 
@@ -25,6 +30,9 @@ void manager_insert(manager_t *m, entities_t *e, Groups_t group);
 void manager_update(manager_t *m, Groups_t group);
 
 void manager_draw(manager_t *m, Groups_t group);
+
+void manager_update_Or_drawALL(manager_t *m, operation_t op);
+
 
 void manager_refresh(manager_t *m);
 
