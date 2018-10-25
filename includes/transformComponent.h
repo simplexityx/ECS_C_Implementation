@@ -11,7 +11,7 @@ struct transformComponent{
     draw_t draw;
 };
 
-transformComponent_t *transform_create();
+transformComponent_t *transform_create(int x, int y, int speed);
 
 
 

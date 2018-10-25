@@ -9,7 +9,7 @@ void sprite_init(void *e, void *c){
 void sprite_draw(void *c){
     spriteComponent_t *s = (spriteComponent_t*)c;
     entities_t *e = (entities_t*)s->entity;
-    printf("drawing spriteComponent, got the sprite from filepath: %s and this component belongs to entity: %d\n",s->filepath, e->id);
+    printf("drawing spriteComponent, got the sprite from filepath: %s\t and this component belongs to entity: %d\n",s->filepath, e->id);
     return;
 }
 
@@ -24,13 +24,13 @@ void sprite_update(void *c){
 }
 
 
-spriteComponent_t *sprite_create(){
+spriteComponent_t *sprite_create(char *filepath){
 
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
     s->init = sprite_init;
     s->draw = sprite_draw;
     s->update = sprite_update;
-    s->filepath = "teststring";
+    s->filepath = filepath;
 
     return s;
 }

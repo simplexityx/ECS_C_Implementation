@@ -1,5 +1,7 @@
 #include "../includes/entities.h"
 
+
+
 compTypes_t get_type(Components_t *c){
     return c->type;
 }
@@ -8,8 +10,6 @@ compTypes_t get_type(Components_t *c){
 void noop(){
     return;
 }
-
-
 
 void entity_update(void* e){
     entities_t *cur = (entities_t*)e;
@@ -90,31 +90,28 @@ Components_t *create_component(void *c, compTypes_t type){
 }
 
 
-void add_component(entities_t *e, compTypes_t type){
-
-    void *component;
-
+void add_component(entities_t *e, compTypes_t type, void *c){
+ 
     //get correct component and tie it the current entity
     switch(type){
         case Transform:
-            noop();
-            transformComponent_t *t = transform_create();
-            t->init((void*)e, (void*)t);
-            component = (void*)t;
+            noop();  
+            transformComponent_t *t = (transformComponent_t*)c;
+            t->init((void*)e, c);
             break;
         case Sprite:
             noop();
-            spriteComponent_t *s = sprite_create();
-            s->init(e, s);
-            component = (void*)s;
+            spriteComponent_t *s = (spriteComponent_t *)c;
+            s->init((void*)e, c);
             break;
         default:
             break;
     }
 
     //add component to the entity
-    e->components[e->compCount] = create_component(component, type);
+    e->components[e->compCount] = create_component(c, type);
     e->compCount++;  
+   
     return;
 }
 
@@ -127,7 +124,6 @@ void *get_component(void* e, compTypes_t type){
             return component;
         }
     }
-    printf("no component found\n");
     return NULL;
 }
 

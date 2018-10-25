@@ -83,7 +83,6 @@ void manager_refresh(manager_t *m){
         entities_t * tmp = m->groups[i].head;
         while(tmp != NULL){
             if(tmp->active == 0){
-                printf("hello\n");
                 remove_entity(m, tmp, i);
             }
             tmp = tmp->next;
@@ -98,8 +97,8 @@ void destroy_manager(manager_t *m){
         entities_t *tmp = m->groups[i].head;
         while(tmp != NULL){
             tmp->active = 0;
+            tmp = tmp->next;
         }
-        tmp = tmp->next;
     }
     manager_refresh(m);
     free(m);

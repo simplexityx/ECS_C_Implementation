@@ -11,6 +11,6 @@ struct spriteComponent{
     draw_t draw;
 };
 
-spriteComponent_t *sprite_create();
+spriteComponent_t *sprite_create(char *filepath);
 
 #endif

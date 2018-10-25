@@ -3,12 +3,8 @@
 #include <stdarg.h>
 
 
-
-
-
-
 int main(){
-
+    
     manager_t *m = manager_create();
 
     entities_t *entity = entities_create();
@@ -17,11 +13,13 @@ int main(){
     entities_t *entity3 = entities_create();
     entities_t *entity4 = entities_create();
     
-    add_component(entity, Transform);
-    add_component(entity1, Transform);
-    add_component(entity2, Transform);
-    add_component(entity3, Transform);
-    add_component(entity4, Transform);
+    int arg[3] = {20, 250, 2};
+
+    add_component(entity, Transform, transform_create(250, 520, 2));
+    add_component(entity1, Transform, transform_create(100, 890, 2));
+    add_component(entity2, Transform,transform_create(2, 870, 2));
+    add_component(entity3, Transform, transform_create(23, 60, 2));
+    add_component(entity4, Transform, transform_create(562, 25, 2));
 
 
     manager_insert(m, entity, GROUP1);
@@ -38,7 +36,9 @@ int main(){
     manager_update(m, GROUP3);
     print_manager(m);
 
-
+    destroy_manager(m);
+    
+    
     return 0;
 }
 

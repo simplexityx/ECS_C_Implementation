@@ -3,6 +3,7 @@
 #include "headers.h"
 #include "transformComponent.h"
 #include "spriteComponent.h"
+#include <stdarg.h>
 
 typedef struct Components Components_t;
 struct Components{
@@ -24,7 +25,7 @@ struct entities{
 
 entities_t *entities_create();
 
-void add_component(entities_t *e, compTypes_t type);
+void add_component(entities_t *e, compTypes_t type, void *c);
 
 void *get_component(void *e, compTypes_t type);
 

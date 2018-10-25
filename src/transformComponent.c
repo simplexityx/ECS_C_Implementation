@@ -24,12 +24,12 @@ void transform_draw(void *c){
 }
 
 
-transformComponent_t *transform_create(){
+transformComponent_t *transform_create(int x, int y, int speed){
     
     transformComponent_t *t = malloc(sizeof(transformComponent_t));
     
-    t->x = 25;
-    t->y = 250;
+    t->x = x;
+    t->y = y * speed;
     t->init = transform_init;
     t->update = transform_update;
     t->draw = transform_draw;
