@@ -9,6 +9,11 @@ typedef enum compTypes {
     Sprite
 }compTypes_t;
 
+typedef enum Groups{
+    GROUP1,
+    GROUP2,
+    GROUP3
+}Groups_t;
 
 typedef struct entities entities_t;
 

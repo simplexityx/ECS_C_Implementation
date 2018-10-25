@@ -1,67 +1,104 @@
 #include "../includes/manager.h"
 
 
+
 manager_t *manager_create(){
 
     manager_t *m = malloc(sizeof(manager_t));
-    m->head = m->tail = NULL;
-    m->size = 0;
+    m->currentActiveGroups = 0;
+    for(int i = 0; i < MAXCOMPONENTS; i++){
+        m->groups[i].head = NULL;
+        m->groups[i].tail = NULL;
+        m->groups[i].currentSize = 0;
+    }
     return m;
 }
 
-void add_entity(manager_t *m, entities_t *e){
+void manager_insert(manager_t *m, entities_t *e, Groups_t group){
 
-    if(m->head == NULL){
-        m->head = m->tail = e;
-        m->size++;
+    if(m->groups[group].head == NULL){
+        m->currentActiveGroups++;
+        m->groups[group].head = m->groups[group].tail = e;
+        m->groups[group].currentSize++;
         return;
     }
 
-    entities_t *tmp = m->tail;
+    entities_t *tmp = m->groups[group].tail;
     e->prev = tmp;
     tmp->next = e;
-    m->tail = e;
-
+    m->groups[group].tail = e;
     return;
 }
 
-void remove_entity(manager_t *m, entities_t *e){
 
-    if(e->next != NULL && e->prev != NULL){
-        e->next->prev = e->prev;
-        e->prev->next = e->next;
-    }else if(e->next == NULL && e->prev != NULL){
-        m->head = m->tail->prev;
-        e->prev->next = NULL;
-    }else if(e->prev == NULL && e->next != NULL){
-        m->head = m->head->next;
-        e->next->prev = NULL;
-    }else{
-        m->head = m->tail = NULL;
-    }
+void manager_update(manager_t *m, Groups_t group){
 
-    destroy_entity(e);
-    m->size--;
-    return;
-}
-
-void manager_refresh(manager_t *m){
-
-    entities_t *tmp = m->head;
+    entities_t *tmp = m->groups[group].head;
     while(tmp != NULL){
-        if(tmp->active == 0){
-            remove_entity(m, tmp);
-        }
+        tmp->update(tmp);
         tmp = tmp->next;
     }
     return;
 }
 
-//destroys everything
-void destroy_manager(manager_t *m){
-    entities_t *tmp = m->head;
+
+void manager_draw(manager_t *m, Groups_t group){
+
+    entities_t *tmp = m->groups[group].head;
     while(tmp != NULL){
-        tmp->active = 0;
+        tmp->draw(tmp);
+        tmp = tmp->next;
+    }
+    return;
+}
+
+
+
+void remove_entity(manager_t *m, entities_t *e, Groups_t group){
+
+    
+    if(e->next != NULL && e->prev != NULL){
+        e->next->prev = e->prev;
+        e->prev->next = e->next;
+    }else if(e->next == NULL && e->prev != NULL){
+        m->groups[group].tail = m->groups[group].tail->prev;
+        e->prev->next = NULL;
+    }else if(e->prev == NULL && e->next != NULL){
+        
+        m->groups[group].head = m->groups[group].head->next;
+        e->next->prev = NULL;
+    }else{
+        m->groups[group].head = m->groups[group].tail = NULL;
+    }
+
+    destroy_entity(e);
+    m->groups[group].currentSize--;
+    return;
+}
+
+
+void manager_refresh(manager_t *m){
+
+    for(int i = 0; i < m->currentActiveGroups; i++){
+        entities_t * tmp = m->groups[i].head;
+        while(tmp != NULL){
+            if(tmp->active == 0){
+                printf("hello\n");
+                remove_entity(m, tmp, i);
+            }
+            tmp = tmp->next;
+        }
+    }
+}
+
+void destroy_manager(manager_t *m){
+
+    for(int i = 0; i < m->currentActiveGroups; i++){
+
+        entities_t *tmp = m->groups[i].head;
+        while(tmp != NULL){
+            tmp->active = 0;
+        }
         tmp = tmp->next;
     }
     manager_refresh(m);
@@ -71,12 +108,11 @@ void destroy_manager(manager_t *m){
 
 void print_manager(manager_t *m){
 
-    if(m->head == NULL)
-        printf("manager is empty\n");
-    entities_t *tmp = m->head;
-    while(tmp != NULL){
-        printf("%d\n", tmp->id);
-        tmp = tmp->next;
+    for(int i = 0; i < m->currentActiveGroups; i++){
+        entities_t *tmp = m->groups[i].head;
+        while(tmp != NULL){
+            printf("id: %d in group: %d\n", tmp->id, i);
+            tmp = tmp->next;
+        }
     }
-    return;
 }
