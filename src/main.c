@@ -9,12 +9,22 @@ int main(){
     
     entities_t *entity = entities_create();
     
-    add_component(entity, (void*)transform_create(), Transform);
-    add_component(entity, (void*)sprite_create(), Sprite);
+    add_component(entity,  Transform);
+    add_component(entity,  Sprite);
     
-    entity->update(entity);
 
+    entities_t *entity2 = entities_create();
     
+    add_component(entity2,  Transform);
+    add_component(entity2,  Sprite);
+    int i = 0;
+    while(i < 10){
+        entity->update(entity);
+        entity2->update(entity2);
+        i++;
+    }
+    
+
     return 0;
 }
 

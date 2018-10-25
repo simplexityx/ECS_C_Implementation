@@ -6,6 +6,7 @@ struct spriteComponent{
 
     char *filepath;
     void *entity;
+    init_t init;
     update_t update;
     draw_t draw;
 };

@@ -11,6 +11,8 @@ struct Components{
 };
 
 struct entities{
+
+    int id;
     update_t update;
     char active;
     int compCount;
@@ -20,7 +22,7 @@ struct entities{
 
 entities_t *entities_create();
 
-void add_component(entities_t *e, void *c, compTypes_t type);
+void add_component(entities_t *e, compTypes_t type);
 
 Components_t *get_component(entities_t *e, compTypes_t type);
 

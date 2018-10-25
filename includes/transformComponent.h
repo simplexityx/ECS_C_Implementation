@@ -6,6 +6,7 @@
 struct transformComponent{
     int x, y;
     void *entity;
+    init_t init;
     update_t update;
     draw_t draw;
 };

@@ -5,6 +5,10 @@ compTypes_t get_type(Components_t *c){
 }
 
 
+void noop(){
+    return;
+}
+
 
 
 void entity_update(void* e){
@@ -14,13 +18,13 @@ void entity_update(void* e){
         switch(type){
 
             case Transform:
-                printf("\n");
+                noop();
                 transformComponent_t *t = (transformComponent_t *)cur->components[i]->component;
                 t->update((void*)t);
                 break;
 
             case Sprite:
-                printf("\n");
+                noop();
                 spriteComponent_t *s = (spriteComponent_t *)cur->components[i]->component;
                 s->update((void*)s);
                 break;
@@ -32,7 +36,7 @@ void entity_update(void* e){
     }
 }
 
-
+static int eid;
 
 entities_t *entities_create(){
 
@@ -40,10 +44,14 @@ entities_t *entities_create(){
     e->active = 0;
     e->next = e->prev = NULL;
     e->compCount = 0;
-    e->components = calloc(32, sizeof(Components_t *));
+    e->id = eid;
+    eid++;
+    e->components = calloc(MAXCOMPONENTS, sizeof(Components_t*));
     e->update = entity_update;
     return e;
 }
+
+
 
 Components_t *create_component(void *c, compTypes_t type){
     Components_t *component = malloc(sizeof(Components_t));
@@ -54,19 +62,31 @@ Components_t *create_component(void *c, compTypes_t type){
 }
 
 
+void add_component(entities_t *e, compTypes_t type){
 
+    void *component;
 
-void add_component(entities_t *e, void *c, compTypes_t type){
+    //get correct component and tie it the current entity
+    switch(type){
+        case Transform:
+            noop();
+            transformComponent_t *t = transform_create();
+            t->init((void*)e, (void*)t);
+            component = (void*)t;
+            break;
+        case Sprite:
+            noop();
+            spriteComponent_t *s = sprite_create();
+            s->init(e, s);
+            component = (void*)s;
+            break;
+        default:
+            break;
+    }
 
-    Components_t *component = create_component(c, type);
-    e->components[e->compCount] = component;
-    e->compCount++;
+    //add component to the entity
+    e->components[e->compCount] = create_component(component, type);
+    e->compCount++;  
     return;
 }
-
-
-
-
-
-
 
