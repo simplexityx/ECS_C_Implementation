@@ -14,19 +14,21 @@ struct entities{
 
     int id;
     update_t update;
+    draw_t draw;
     char active;
     int compCount;
     Components_t **components;
     entities_t *next, *prev;
+  
 };
 
 entities_t *entities_create();
 
 void add_component(entities_t *e, compTypes_t type);
 
-Components_t *get_component(entities_t *e, compTypes_t type);
+void *get_component(void *e, compTypes_t type);
 
-
+void destroy_entity(entities_t *e);
 
 
 

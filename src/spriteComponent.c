@@ -9,13 +9,17 @@ void sprite_init(void *e, void *c){
 void sprite_draw(void *c){
     spriteComponent_t *s = (spriteComponent_t*)c;
     entities_t *e = (entities_t*)s->entity;
-    printf("drawing spriteComponent, got the sprite from filepath: %s and this component belongs to entity: %d",s->filepath, e->id);
+    printf("drawing spriteComponent, got the sprite from filepath: %s and this component belongs to entity: %d\n",s->filepath, e->id);
     return;
 }
 
 void sprite_update(void *c){
     spriteComponent_t *s = (spriteComponent_t*)c;
-    entities_t *e = (entities_t*)s->entity;
+
+    transformComponent_t *t = (transformComponent_t*)get_component(s->entity, Transform);
+
+    printf("coordinates: %d, %d\n", t->x, t->y);
+    t->x *= 10;
     return;
 }
 

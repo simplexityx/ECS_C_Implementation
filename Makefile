@@ -20,7 +20,8 @@ TARGET := ECS
 OBJ1 := main.o \
 		entities.o \
 		transformComponent.o \
-		spriteComponent.o
+		spriteComponent.o \
+		manager.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))
