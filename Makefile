@@ -18,7 +18,9 @@ INC_PATH := -I ./includes
 TARGET := ECS
 
 OBJ1 := main.o \
-		entities.o
+		entities.o \
+		transformComponent.o \
+		spriteComponent.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

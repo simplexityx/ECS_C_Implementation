@@ -2,6 +2,30 @@
 #include "../includes/entities.h"
 #include <stdarg.h>
 
+
+
+int main(){
+
+    
+    entities_t *entity = entities_create();
+    
+    add_component(entity, (void*)transform_create(), Transform);
+    add_component(entity, (void*)sprite_create(), Sprite);
+    
+    entity->update(entity);
+
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
 /*
 int func(int num,...){
 
@@ -20,21 +44,3 @@ int func(int num,...){
     return sum;
 }
 */
-
-int main(){
-
-    
-    entities_t *entity = entities_create();
-    
-    add_component(entity, (void*)create_trans(), Transform);
-    add_component(entity, (void*)create_sprite(), Sprite);
-
-    entity->update(entity);
-    entity->update(entity);
-
-    
-
-
-
-    return 0;
-}

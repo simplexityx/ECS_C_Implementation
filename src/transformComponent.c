@@ -1,5 +1,4 @@
-#include "../../includes/transformComponent.h"
-
+#include "../includes/transformComponent.h"
 
 
 void transform_update(void *c){
@@ -13,7 +12,7 @@ void transform_update(void *c){
 
 
 void transform_draw(void *c){
-    printf("in draw in transform component no need to do anything\n");
+    printf("in draw in transform component %d no need to do anything\n", *(int*)c);
     return;
 }
 
@@ -24,7 +23,7 @@ transformComponent_t *transform_create(){
     
     t->x = 25;
     t->y = 250;
-    t->update = transform_update((void*)t);
-
+    t->update = transform_update;
+    t->draw = transform_draw;
     return t;
 }
