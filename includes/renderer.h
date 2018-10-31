@@ -8,12 +8,11 @@ typedef struct renderer{
     SDL_Window *win;
     char running;
     SDL_Event event;
-    manager_t *manager;
-
 }renderer_t;
 
-static assetManager_t *assetmanager;
-
+SDL_Renderer *renderer;
+assetManager_t *assetmanager;
+manager_t *manager;
 renderer_t *renderer_create();
 
 void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int screenHeight, renderer_t *r);
