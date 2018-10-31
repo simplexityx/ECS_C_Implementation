@@ -4,6 +4,7 @@
 #include "transformComponent.h"
 #include "spriteComponent.h"
 #include "colliderComponent.h"
+#include "keyboardComponent.h"
 #include <stdarg.h>
 
 typedef struct Components Components_t;

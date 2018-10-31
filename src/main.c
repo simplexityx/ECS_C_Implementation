@@ -16,8 +16,6 @@ int main(){
     }
     clean(r);
     
-
-    
     return 0;
 }
 

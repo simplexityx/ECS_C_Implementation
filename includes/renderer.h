@@ -2,7 +2,7 @@
 #define RENDERER_H
 #include <SDL2/SDL.h>
 #include <stdlib.h>
-#include "manager.h"
+#include "AssetManager.h"
 typedef struct renderer{
     SDL_Renderer *renderer;
     SDL_Window *win;
@@ -11,6 +11,8 @@ typedef struct renderer{
     manager_t *manager;
 
 }renderer_t;
+
+static assetManager_t *assetmanager;
 
 renderer_t *renderer_create();
 
@@ -24,7 +26,6 @@ void eventHandler(void *r);
 
 void clean(renderer_t *r);
 
-void create_box(SDL_Renderer *rend, manager_t *m, int x, int y, int speed, const char *filepath);
 
 
 

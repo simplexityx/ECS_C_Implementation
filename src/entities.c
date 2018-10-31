@@ -35,6 +35,12 @@ void entity_update(void* e){
                 c->update((void*)c);
                 break;
 
+            case KeyBoard:
+                noop();
+                keyboardComponent_t *k = (keyboardComponent_t *)cur->components[i]->component;
+                k->update((void*)k);
+                break;
+
             default:
                 printf("no known component\n");
                 break;
@@ -64,6 +70,12 @@ void entity_draw(void *e){
                 noop();
                 colliderComponent_t *c = (colliderComponent_t *)cur->components[i]->component;
                 c->draw((void*)c);
+                break;
+
+            case KeyBoard:
+                noop();
+                keyboardComponent_t *k = (keyboardComponent_t *)cur->components[i]->component;
+                k->draw((void*)k);
                 break;
             default:
                 printf("no known component\n");
@@ -120,7 +132,12 @@ void add_component(entities_t *e, compTypes_t type, void *c){
             colliderComponent_t *co = (colliderComponent_t *)c;
             co->init((void*)e, c);
             break;
-        
+
+        case KeyBoard:
+            noop();
+            keyboardComponent_t *k = (keyboardComponent_t *)c;
+            k->init((void*)e, k);
+            break;
         default:
             break;
     }

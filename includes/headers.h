@@ -10,7 +10,8 @@
 typedef enum compTypes {
     Transform,
     Sprite,
-    Collision
+    Collision,
+    KeyBoard
 }compTypes_t;
 
 typedef enum Groups{
@@ -26,6 +27,7 @@ typedef struct transformComponent transformComponent_t;
 typedef void(*init_t) (void*, void*);
 typedef void(*update_t) (void*);
 typedef void(*draw_t) (void*);
+
 
 
 #endif
