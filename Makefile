@@ -21,7 +21,10 @@ OBJ1 := main.o \
 		entities.o \
 		transformComponent.o \
 		spriteComponent.o \
-		manager.o
+		colliderComponent.o \
+		manager.o \
+		renderer.o \
+		textureManager.o 
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

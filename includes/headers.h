@@ -4,9 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAXCOMPONENTS   32
+#include <SDL2/SDL.h>
+#include "textureManager.h"
+
 typedef enum compTypes {
     Transform,
-    Sprite
+    Sprite,
+    Collision
 }compTypes_t;
 
 typedef enum Groups{

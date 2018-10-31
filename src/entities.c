@@ -29,6 +29,12 @@ void entity_update(void* e){
                 s->update((void*)s);
                 break;
 
+            case Collision:
+                noop();
+                colliderComponent_t *c = (colliderComponent_t *)cur->components[i]->component;
+                c->update((void*)c);
+                break;
+
             default:
                 printf("no known component\n");
                 break;
@@ -54,6 +60,11 @@ void entity_draw(void *e){
                 s->draw((void*)s);
                 break;
 
+            case Collision:
+                noop();
+                colliderComponent_t *c = (colliderComponent_t *)cur->components[i]->component;
+                c->draw((void*)c);
+                break;
             default:
                 printf("no known component\n");
                 break;
@@ -104,6 +115,12 @@ void add_component(entities_t *e, compTypes_t type, void *c){
             spriteComponent_t *s = (spriteComponent_t *)c;
             s->init((void*)e, c);
             break;
+        case Collision:
+            noop();
+            colliderComponent_t *co = (colliderComponent_t *)c;
+            co->init((void*)e, c);
+            break;
+        
         default:
             break;
     }

@@ -8,18 +8,14 @@ void transform_init(void *e, void *c){
 }
 
 void transform_update(void *c){
-
     transformComponent_t *t = (transformComponent_t *)c;
-    entities_t *e = (entities_t*)t->entity;
-    printf("current position: %d, %d this component belongs to: %d\n",t->x, t->y, e->id);
-    t->x++;
-    t->y = t->y;
+    t->x += t->speed;
+    t->y += t->speed;
     return;
 }
 
 
 void transform_draw(void *c){
-    printf("in draw in transform component %d no need to do anything\n", *(int*)c);
     return;
 }
 
@@ -27,9 +23,9 @@ void transform_draw(void *c){
 transformComponent_t *transform_create(int x, int y, int speed){
     
     transformComponent_t *t = malloc(sizeof(transformComponent_t));
-    
+    t->speed = speed;
     t->x = x;
-    t->y = y * speed;
+    t->y = y;
     t->init = transform_init;
     t->update = transform_update;
     t->draw = transform_draw;

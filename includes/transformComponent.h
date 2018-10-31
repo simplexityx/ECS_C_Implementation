@@ -4,7 +4,7 @@
 
 
 struct transformComponent{
-    int x, y;
+    int x, y, speed;
     void *entity;
     init_t init;
     update_t update;
