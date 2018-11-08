@@ -1,5 +1,5 @@
 #include "../includes/spriteComponent.h"
-#include "entities.h"
+#include "../includes/entities.h"
 void sprite_init(void *e, void *c){
     spriteComponent_t *s = (spriteComponent_t*)c;
     s->entity = e;
@@ -28,7 +28,6 @@ void sprite_update(void *c){
 
 
 spriteComponent_t *sprite_create(const char *filepath){
-    static int i;
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
     s->init = sprite_init;
     s->draw = sprite_draw;
@@ -37,11 +36,7 @@ spriteComponent_t *sprite_create(const char *filepath){
     s->src.w = s->src.h = s->dst.w = s->dst.h = 32;    
     s->tex = load_texture(filepath);
 
-    if(i == 0){
-        idxgiver++;
-        i = idxgiver;
-    }
-    s->idx = i;
+   
 
     return s;
 }

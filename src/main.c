@@ -12,6 +12,7 @@ int main(){
         eventHandler(r);
         update();
         draw();
+        SDL_Delay(1000 / 60);
     }
     clean(r);
     

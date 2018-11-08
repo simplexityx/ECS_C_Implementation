@@ -1,5 +1,5 @@
 #include "../includes/colliderComponent.h"
-#include "entities.h"
+#include "../includes/entities.h"
 
 void collisionReaction(void *c){
     colliderComponent_t *co = (colliderComponent_t*)c;
@@ -45,16 +45,11 @@ void collider_draw(void *c){
 
 
 colliderComponent_t * collider_create(){
-    static int i;
     colliderComponent_t *c = malloc(sizeof(colliderComponent_t));
     c->init = collider_init;
     c->update = collider_update;
     c->draw = collider_draw;
     c->collision = collisionReaction;
-    if(i == 0){
-        idxgiver++;
-        i = idxgiver;
-    }
-    c->idx = i;
+    
     return c;
 }

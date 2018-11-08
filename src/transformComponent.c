@@ -1,5 +1,5 @@
 #include "../includes/transformComponent.h"
-#include "entities.h"
+#include "../includes/entities.h"
 
 void transform_init(void *e, void *c){
     transformComponent_t *t = (transformComponent_t*)c;
@@ -28,7 +28,6 @@ void set_transform(void *c, int x, int y){
 
 
 transformComponent_t *transform_create(int x, int y, int speedX, int speedY){
-    static int i;
     transformComponent_t *t = malloc(sizeof(transformComponent_t));
     t->speedX = speedX;
     t->speedY = speedY;
@@ -39,11 +38,6 @@ transformComponent_t *transform_create(int x, int y, int speedX, int speedY){
     t->draw = transform_draw;
     t->set_trans = set_transform;
 
-    if(i == 0){
-        idxgiver++;
-        i = idxgiver;
-    }
-    t->idx = i;
 
     return t;
 }

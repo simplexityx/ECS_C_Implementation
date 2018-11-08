@@ -1,6 +1,6 @@
 CC := gcc
 CFLAGS := -g -Wall -Wextra
-LINKFLAGS := -std=c99 -lpthread -lSDL2_image -lSDL2_image `sdl2-config --cflags --libs`
+LINKFLAGS := -std=c99 -lpthread -lSDL2_image `sdl2-config --cflags --libs`
 RM := rm
 .PHONY: $(TARGET)
 .PHONY: clean

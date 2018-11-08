@@ -21,7 +21,7 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		r->win = SDL_CreateWindow(title, xpos, ypos, screenWidth, screenHeight, 0);
 		
-		renderer = SDL_CreateRenderer(r->win, -1, SDL_RENDERER_PRESENTVSYNC);
+		renderer = SDL_CreateRenderer(r->win, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 		if (renderer) {
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		}
