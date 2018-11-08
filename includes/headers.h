@@ -14,11 +14,11 @@ typedef enum compTypes {
 }compTypes_t;
 
 typedef enum Groups{
-    GROUP1,
-    GROUP2,
+    PLAYER,
+    OBSTACLE,
     GROUP3
 }Groups_t;
-
+int idxgiver;
 typedef struct entities entities_t;
 
 typedef struct spriteComponent spriteComponent_t;

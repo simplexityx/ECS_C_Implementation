@@ -28,15 +28,20 @@ void sprite_update(void *c){
 
 
 spriteComponent_t *sprite_create(const char *filepath){
-
+    static int i;
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
     s->init = sprite_init;
     s->draw = sprite_draw;
     s->update = sprite_update;
     s->src.x = s->src.y = 0;
-    s->src.w = s->src.h = s->dst.w = s->dst.h = 32;
-    
+    s->src.w = s->src.h = s->dst.w = s->dst.h = 32;    
     s->tex = load_texture(filepath);
+
+    if(i == 0){
+        idxgiver++;
+        i = idxgiver;
+    }
+    s->idx = i;
 
     return s;
 }

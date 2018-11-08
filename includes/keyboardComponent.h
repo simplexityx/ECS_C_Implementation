@@ -5,6 +5,7 @@
 typedef struct keyboardComponent keyboardComponent_t;
 
 struct keyboardComponent{
+    char idx;
     transformComponent_t *t;
     void *entity;
     init_t init;

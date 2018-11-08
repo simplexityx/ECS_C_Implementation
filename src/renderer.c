@@ -1,5 +1,5 @@
 #include "../includes/renderer.h"
-
+#include "../includes/GridMap.h"
 
 int get_random(){
 
@@ -21,7 +21,7 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		r->win = SDL_CreateWindow(title, xpos, ypos, screenWidth, screenHeight, 0);
 		
-		renderer = SDL_CreateRenderer(r->win, -1, 0);
+		renderer = SDL_CreateRenderer(r->win, -1, SDL_RENDERER_PRESENTVSYNC);
 		if (renderer) {
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		}
@@ -34,19 +34,39 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     return;
 }
 
-void update(void *r){
-    renderer_t *re = (renderer_t *)r;
-    manager_update(manager, GROUP1);
-    manager_update(manager, GROUP2);
+void update(){
+   
+
+    grid_t *g = grid_create();
+    entities_t *tmp = get_group(manager, PLAYER);
+    entities_t *obstacles = get_group(manager, OBSTACLE);
+
+   
+
+    for(; obstacles != NULL; obstacles = obstacles->next){
+        obstacles->update(obstacles);
+        if(has_component(obstacles, Collision)){
+            grid_insert(g, get_component(obstacles, Collision));
+        }
+
+    }
+    for(;tmp != NULL; tmp = tmp->next){
+        tmp->update(tmp);
+        
+        grid_insert(g, get_component(tmp, Collision));
+    }
+
     manager_refresh(manager);
+    grid_destroy(g);
     return;
 }
 
-void draw(void *r){
-    renderer_t *re = (renderer_t *)r;
+void draw(){
+  
     SDL_RenderClear(renderer);
-    manager_draw(manager, GROUP1);
-    manager_draw(manager, GROUP2);
+    
+    manager_draw(manager, OBSTACLE);
+    manager_draw(manager, PLAYER);
 
     SDL_RenderPresent(renderer);
     return;

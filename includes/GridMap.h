@@ -5,30 +5,33 @@
 #include "colliderComponent.h"
 #define PIXELSX 128
 #define PIXESLY 128
+#define ELEMENTS_PER_CELL 100
+typedef int (*collision_t) (colliderComponent_t *, colliderComponent_t *);
+
 typedef struct elem elem_t;
 struct elem{
     void *rect;
-    elem_t *next;
 };
 
 
 typedef struct cell cell_t;
 struct cell{
-    elem_t elem[10];
+    elem_t **elem;
     int curSize;
 };
 
 typedef struct grid grid_t;
 
 struct grid{
-    cell_t c[7][5];
+    cell_t c[2][2];
+    collision_t collision;
 };
 
 grid_t *grid_create();
 
-void grid_insert(grid_t *grid, colliderComponent_t *rect);
+int grid_insert(grid_t *grid, colliderComponent_t *rect);
 
-
+void grid_destroy(grid_t *grid);
 
 
 

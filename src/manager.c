@@ -124,8 +124,12 @@ void print_manager(manager_t *m){
     for(int i = 0; i < m->currentActiveGroups; i++){
         entities_t *tmp = m->groups[i].head;
         while(tmp != NULL){
-            printf("id: %d in group: %d\n", tmp->id, i);
             tmp = tmp->next;
         }
     }
+}
+
+
+entities_t *get_group(manager_t *m, Groups_t group){
+    return m->groups[group].head;
 }

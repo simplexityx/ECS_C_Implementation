@@ -10,9 +10,8 @@ int main(){
     while(r->running != 0){
 
         eventHandler(r);
-        update(r);
-        draw(r);
-        SDL_Delay(1000 / 60);
+        update();
+        draw();
     }
     clean(r);
     

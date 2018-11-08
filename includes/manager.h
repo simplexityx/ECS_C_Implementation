@@ -33,6 +33,7 @@ void manager_draw(manager_t *m, Groups_t group);
 
 void manager_update_Or_drawALL(manager_t *m, operation_t op);
 
+entities_t *get_group(manager_t *m, Groups_t group);
 
 void manager_refresh(manager_t *m);
 

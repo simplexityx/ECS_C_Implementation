@@ -86,7 +86,6 @@ void entity_draw(void *e){
 
 
 
-static int eid;
 
 entities_t *entities_create(){
 
@@ -94,8 +93,6 @@ entities_t *entities_create(){
     e->active = 1;
     e->next = e->prev = NULL;
     e->compCount = 0;
-    e->id = eid;
-    eid++;
     e->components = calloc(MAXCOMPONENTS, sizeof(Components_t*));
     e->update = entity_update;
     e->draw = entity_draw;
@@ -159,6 +156,17 @@ void *get_component(void* e, compTypes_t type){
         }
     }
     return NULL;
+}
+
+
+int has_component(entities_t *e, compTypes_t type){
+
+    for(int i = 0; i < e->compCount; i++){
+        if(e->components[i]->type == type){
+            return 1;
+        }
+    }
+    return 0;
 }
 
 

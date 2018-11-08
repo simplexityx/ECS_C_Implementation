@@ -3,7 +3,7 @@
 #include "headers.h"
 #include "textureManager.h"
 struct spriteComponent{
-
+    char idx;
     void *entity;
     init_t init;
     update_t update;

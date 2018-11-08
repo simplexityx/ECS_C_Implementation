@@ -17,9 +17,9 @@ renderer_t *renderer_create();
 
 void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int screenHeight, renderer_t *r);
 
-void update(void *r);
+void update();
 
-void draw(void *r);
+void draw();
 
 void eventHandler(void *r);
 

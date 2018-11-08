@@ -26,7 +26,8 @@ OBJ1 := main.o \
 		manager.o \
 		renderer.o \
 		textureManager.o \
-		assetManager.o
+		assetManager.o \
+		gridMap.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

@@ -16,7 +16,7 @@ void am_player_create( int x, int y, int sx, int sy, const char* filepath){
     keyboardComponent_t *k = keyboard_create();
     add_component(entity, KeyBoard, k);
 
-    manager_insert(manager, entity, GROUP2);
+    manager_insert(manager, entity, PLAYER);
 
 }
 
@@ -33,7 +33,7 @@ void am_obstacle_create( int x, int y, int sx, int sy, const char* filepath){
     colliderComponent_t *c = collider_create();
     add_component(entity, Collision, c);
 
-    manager_insert(manager, entity, GROUP1);
+    manager_insert(manager, entity, OBSTACLE);
 }
 
 

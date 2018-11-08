@@ -15,7 +15,6 @@ struct Components{
 
 struct entities{
 
-    int id;
     update_t update;
     draw_t draw;
     char active;
@@ -31,7 +30,7 @@ void add_component(entities_t *e, compTypes_t type, void *c);
 
 void *get_component(void *e, compTypes_t type);
 
-
+int has_component(entities_t *e, compTypes_t type);
 
 void destroy_entity(entities_t *e);
 

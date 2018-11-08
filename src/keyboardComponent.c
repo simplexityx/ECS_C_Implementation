@@ -53,10 +53,16 @@ void keyboard_draw(void *c){
 
 
 keyboardComponent_t *keyboard_create(){
+    static int i;
     keyboardComponent_t *k = malloc(sizeof(keyboardComponent_t));
     k->init = keyboard_init;
     k->update = keyboard_update;
     k->draw = keyboard_draw;
+    if(i == 0){
+        idxgiver++;
+        i = idxgiver;
+    }
+    k->idx = i;
     return k;
 }
 
