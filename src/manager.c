@@ -17,12 +17,12 @@ manager_t *manager_create(){
 void manager_insert(manager_t *m, entities_t *e, Groups_t group){
 
     if(m->groups[group].head == NULL){
+        printf("Creating Group: %d\n", group);
         m->currentActiveGroups++;
         m->groups[group].head = m->groups[group].tail = e;
         m->groups[group].currentSize++;
         return;
     }
-
     entities_t *tmp = m->groups[group].tail;
     e->prev = tmp;
     tmp->next = e;
@@ -55,6 +55,7 @@ void manager_draw(manager_t *m, Groups_t group){
 void manager_update_Or_drawALL(manager_t *m, operation_t op){
 
     for(int i = 0; i < m->currentActiveGroups; i++){
+        
         entities_t * tmp = m->groups[i].head;
         while(tmp != NULL){
             if(op == UPDATE){
@@ -93,7 +94,7 @@ void remove_entity(manager_t *m, entities_t *e, Groups_t group){
 
 void manager_refresh(manager_t *m){
 
-    for(int i = 0; i < m->currentActiveGroups; i++){
+    for(int i = 0; i < MAXCOMPONENTS; i++){
         entities_t * tmp = m->groups[i].head;
         while(tmp != NULL){
             if(tmp->active == 0){

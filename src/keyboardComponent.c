@@ -38,7 +38,7 @@ void keyboard_update(void *c){
     }
 
     if (k->keyboard_state_array[SDL_SCANCODE_SPACE]){
-        assetmanager->create_obstacle(k->t->x, k->t->y, lastPosX, lastPosY, "Assets/magic.png");
+        assetmanager->create_projectile(k->t->x + 2, k->t->y + 2, lastPosX, lastPosY, "Assets/magic.png");
     }
 
     k->t->set_trans(k->t, tmpX, tmpY);

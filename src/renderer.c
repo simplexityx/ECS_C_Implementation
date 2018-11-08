@@ -1,6 +1,6 @@
 #include "../includes/renderer.h"
 #include "../includes/GridMap.h"
-
+#include "../includes/TerrainManager.h"
 int get_random(){
 
     int n = rand() % 5;
@@ -30,7 +30,7 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     manager = manager_create();
     assetmanager = assetManager_create(manager);
     assetmanager->create_player( 400, 200, 0,0, "Assets/wizardsheet1.png");
-
+    ParseLevel("./Map/map.map");
     return;
 }
 
@@ -40,9 +40,8 @@ void update(){
     grid_t *g = grid_create();
     entities_t *tmp = get_group(manager, PLAYER);
     entities_t *obstacles = get_group(manager, OBSTACLE);
-
    
-
+    
     for(; obstacles != NULL; obstacles = obstacles->next){
         obstacles->update(obstacles);
         if(has_component(obstacles, Collision)){
@@ -55,6 +54,8 @@ void update(){
         
         grid_insert(g, get_component(tmp, Collision));
     }
+    
+
 
     manager_refresh(manager);
     grid_destroy(g);
@@ -64,10 +65,9 @@ void update(){
 void draw(){
   
     SDL_RenderClear(renderer);
-    
+    manager_draw(manager, TERRAIN);    
     manager_draw(manager, OBSTACLE);
     manager_draw(manager, PLAYER);
-
     SDL_RenderPresent(renderer);
     return;
 }
@@ -80,7 +80,7 @@ void eventHandler(void *r){
             re->running = 0;
         }else if(re->event.type == SDL_MOUSEBUTTONDOWN){
             SDL_GetMouseState(&x, &y);
-            assetmanager->create_obstacle( x, y, get_random(), get_random(), "Assets/box.png");
+            assetmanager->create_obstacle( x, y, 0, 0, "Assets/box.png");
         }
     }
     return;

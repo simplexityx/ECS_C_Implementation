@@ -6,7 +6,7 @@ typedef void (*set_trans_t) (void *,int, int);
 
 struct transformComponent{
     char idx;
-    int x, y, speedX, speedY;
+    int x, y, speedX, speedY, oldX, oldY;
     void *entity;
     init_t init;
     update_t update;

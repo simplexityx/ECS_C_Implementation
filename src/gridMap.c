@@ -1,14 +1,12 @@
 #include "../includes/GridMap.h"
 
 int AABB(colliderComponent_t *a, colliderComponent_t *b){
-    printf("acol: (%d, %d)\t bcol: (%d, %d)\n", a->col.x, a->col.y, b->col.x, b->col.y);
 
     if(a->col.x < b->col.x  + b->col.w &&
        a->col.x + a->col.w > b->col.x &&
        a->col.y < b->col.y + b->col.h &&
        a->col.y + a->col.h > b->col.y)
     {
-        printf("acol: (%d, %d)\t bcol: (%d, %d)\n", a->col.x, a->col.y, b->col.x, b->col.y);
         return 1;
     }
     return 0;

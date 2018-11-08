@@ -9,6 +9,8 @@ void transform_init(void *e, void *c){
 
 void transform_update(void *c){
     transformComponent_t *t = (transformComponent_t *)c;
+    t->oldX = t->x;
+    t->oldY = t->y;
     t->x += t->speedX;
     t->y += t->speedY;
     return;
