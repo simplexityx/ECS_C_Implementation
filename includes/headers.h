@@ -6,13 +6,6 @@
 #define MAXCOMPONENTS   32
 #include <SDL2/SDL.h>
 
-typedef enum collisionTypes {
-    SOLID,
-    DESTRUCTIBLE,
-    TRIGGER,
-    HUMANOID
-
-}collisionTypes_t;
 
 typedef enum compTypes {
     Transform,
@@ -28,7 +21,9 @@ typedef enum Groups{
     PROJECTILES,
     TERRAIN,
 }Groups_t;
-int idxgiver;
+
+
+
 typedef struct entities entities_t;
 
 typedef struct spriteComponent spriteComponent_t;

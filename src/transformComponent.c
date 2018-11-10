@@ -9,10 +9,14 @@ void transform_init(void *e, void *c){
 
 void transform_update(void *c){
     transformComponent_t *t = (transformComponent_t *)c;
-    t->oldX = t->x;
-    t->oldY = t->y;
-    t->x += t->speedX;
-    t->y += t->speedY;
+    t->oldPos = t->pos;
+    unsigned long currentTime = SDL_GetTicks();
+    unsigned long deltaTime = currentTime - t->lastUpdate;
+    t->pos.x += t->speed.x *(deltaTime / 1000.0f);
+    t->pos.y += t->speed.y *(deltaTime / 1000.0f);
+   
+    t->lastUpdate = currentTime;
+
     return;
 }
 
@@ -23,23 +27,21 @@ void transform_draw(void *c){
 
 void set_transform(void *c, int x, int y){
     transformComponent_t *t = (transformComponent_t *)c;
-    t->speedX = x;
-    t->speedY = y;
+    t->speed.x = x;
+    t->speed.y = y;
     return;
 }
 
 
-transformComponent_t *transform_create(int x, int y, int speedX, int speedY){
+transformComponent_t *transform_create(Vector2D_t pos, Vector2D_t speed){
     transformComponent_t *t = malloc(sizeof(transformComponent_t));
-    t->speedX = speedX;
-    t->speedY = speedY;
-    t->x = x;
-    t->y = y;
+    t->pos = pos;
+    t->speed = speed;
     t->init = transform_init;
     t->update = transform_update;
     t->draw = transform_draw;
     t->set_trans = set_transform;
-
+    t->lastUpdate = SDL_GetTicks();
 
     return t;
 }

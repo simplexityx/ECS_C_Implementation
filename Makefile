@@ -28,7 +28,9 @@ OBJ1 := main.o \
 		textureManager.o \
 		assetManager.o \
 		gridMap.o \
-		TerrainManager.o
+		TerrainManager.o \
+		hashmap.o \
+		vector2D.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

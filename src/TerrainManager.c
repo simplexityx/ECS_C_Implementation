@@ -14,13 +14,13 @@ void ParseLevel(char *filepath){
             k -= 48;
             switch(k){
                 case GRASS:
-                    assetmanager->create_tile(x * 32, y * 32, "Assets/grass.png");
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "grass");
                     break;
                 case WATER:
-                    assetmanager->create_tile(x * 32, y * 32, "Assets/water.png");
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "water");
                     break;
                 case ROCKS:
-                    assetmanager->create_tile(x * 32, y * 32, "Assets/rock.png");
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "rock");
                     break;
             }
         }

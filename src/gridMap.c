@@ -41,7 +41,8 @@ int check_collision(grid_t *g, int x, int y, int idx){
         //DO AABB CHECK HERE AND CALL THE COLLISION COMPONENT FUNCTION
         if(g->collision(g->c[x][y].elem[i]->rect, g->c[x][y].elem[idx]->rect) == 1){
             colliderComponent_t *c = (colliderComponent_t *) g->c[x][y].elem[idx]->rect;
-            c->collision(c);
+            colliderComponent_t *c2 = (colliderComponent_t *) g->c[x][y].elem[i]->rect;
+            c->collision(c, c2);
         }
     }
 

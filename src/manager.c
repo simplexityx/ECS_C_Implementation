@@ -52,22 +52,6 @@ void manager_draw(manager_t *m, Groups_t group){
     return;
 }
 
-void manager_update_Or_drawALL(manager_t *m, operation_t op){
-
-    for(int i = 0; i < m->currentActiveGroups; i++){
-        
-        entities_t * tmp = m->groups[i].head;
-        while(tmp != NULL){
-            if(op == UPDATE){
-                tmp->update(tmp);
-            }else if (op == DRAW){
-                tmp->draw(tmp);
-            }
-            tmp = tmp->next;
-        }
-    }
-
-}
 
 void remove_entity(manager_t *m, entities_t *e, Groups_t group){
 

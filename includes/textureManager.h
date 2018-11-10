@@ -3,6 +3,6 @@
 #include <SDL2/SDL.h>
 
 SDL_Texture *load_texture(const char *filepath);
-void draw_texture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst);
+void draw_texture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst, char flip);
 
 #endif

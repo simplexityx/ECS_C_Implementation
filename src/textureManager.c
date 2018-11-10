@@ -9,7 +9,7 @@ SDL_Texture *load_texture(const char *filepath){
     return tex;
 }
 
-void draw_texture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst){
-    SDL_RenderCopy(renderer, tex, &src, &dst);
+void draw_texture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst, char flip){
+    SDL_RenderCopyEx(renderer, tex, &src, &dst, 0, NULL, flip);
 }
 

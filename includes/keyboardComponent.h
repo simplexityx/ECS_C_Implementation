@@ -6,6 +6,7 @@ typedef struct keyboardComponent keyboardComponent_t;
 
 struct keyboardComponent{
     transformComponent_t *t;
+    spriteComponent_t *s;
     void *entity;
     init_t init;
     update_t update;
