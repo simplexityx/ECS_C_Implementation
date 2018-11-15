@@ -20,6 +20,7 @@ typedef enum Groups{
     OBSTACLE,
     PROJECTILES,
     TERRAIN,
+    STATIC
 }Groups_t;
 
 

@@ -1,5 +1,5 @@
 #include "../includes/GridMap.h"
-
+#include "../includes/entities.h"
 int AABB(colliderComponent_t *a, colliderComponent_t *b){
 
     if(a->col.x < b->col.x  + b->col.w &&
@@ -11,6 +11,39 @@ int AABB(colliderComponent_t *a, colliderComponent_t *b){
     }
     return 0;
 }
+
+void n(){
+    return;
+}
+
+//co1 collides, co2 is the one being collided into
+void collisionReaction(void *c1, void *c2){
+    colliderComponent_t *co1 = (colliderComponent_t*)c1;
+    colliderComponent_t *co2 = (colliderComponent_t*)c2;
+
+    switch(co1->tag){
+        
+        case PROJECTILES:
+            n();
+            if(co2->tag != PLAYER){
+                entities_t *e = (entities_t*)co1->entity;
+                e->active = 0;
+            }
+            
+            break;    
+            //remove entity 
+        case PLAYER:
+            co1->t->pos = co1->t->oldPos;
+            break;
+        default:
+            break;
+    }
+    
+    return;
+}
+
+
+
 
 elem_t *elem_create(void *rect){
 
@@ -42,7 +75,7 @@ int check_collision(grid_t *g, int x, int y, int idx){
         if(g->collision(g->c[x][y].elem[i]->rect, g->c[x][y].elem[idx]->rect) == 1){
             colliderComponent_t *c = (colliderComponent_t *) g->c[x][y].elem[idx]->rect;
             colliderComponent_t *c2 = (colliderComponent_t *) g->c[x][y].elem[i]->rect;
-            c->collision(c, c2);
+            collisionReaction(c, c2);
         }
     }
 

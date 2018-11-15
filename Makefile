@@ -30,7 +30,8 @@ OBJ1 := main.o \
 		gridMap.o \
 		TerrainManager.o \
 		hashmap.o \
-		vector2D.o
+		vector2D.o \
+		collisions.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

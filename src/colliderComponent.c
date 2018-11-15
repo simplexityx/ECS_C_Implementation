@@ -1,35 +1,7 @@
 #include "../includes/colliderComponent.h"
 #include "../includes/entities.h"
 
-void n(){
-    return;
-}
 
-//co1 collides, co2 is the one being collided into
-void collisionReaction(void *c1, void *c2){
-    colliderComponent_t *co1 = (colliderComponent_t*)c1;
-    colliderComponent_t *co2 = (colliderComponent_t*)c2;
-
-    switch(co1->tag){
-        
-        case PROJECTILES:
-            n();
-            if(co2->tag != PLAYER){
-                entities_t *e = (entities_t*)co1->entity;
-                e->active = 0;
-            }
-            
-            break;    
-            //remove entity 
-        case PLAYER:
-            co1->t->pos = co1->t->oldPos;
-            break;
-        default:
-            break;
-    }
-    
-    return;
-}
 
 
 void collider_init(void *e, void *c){
@@ -76,7 +48,6 @@ colliderComponent_t * collider_create(Groups_t tag){
     c->init = collider_init;
     c->update = collider_update;
     c->draw = collider_draw;
-    c->collision = collisionReaction;
     c->tag = tag;
     
     return c;

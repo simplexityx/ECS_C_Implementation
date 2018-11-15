@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #define START_CELL_AMOUNT 10
 #include "colliderComponent.h"
+#include "transformComponent.h"
+
 #define PIXELSX 128
 #define PIXESLY 128
 #define ELEMENTS_PER_CELL 100
