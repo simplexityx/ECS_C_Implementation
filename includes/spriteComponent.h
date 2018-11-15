@@ -22,10 +22,6 @@ typedef enum animationStates{
 struct spriteComponent{
     char flip;
     char flags;
-    void *entity;
-    init_t init;
-    update_t update;
-    draw_t draw;
     transformComponent_t *t;
     set_tex_t set_tex;
     char currentFrame;
@@ -35,5 +31,16 @@ struct spriteComponent{
 };
 
 spriteComponent_t *sprite_create(const char *texName, uint32_t flags);
+
+void sprite_init(void *e, void *c);
+
+void sprite_draw(void *c);
+
+void sprite_update(void *c);
+
+
+
+
+
 
 #endif

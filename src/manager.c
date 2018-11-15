@@ -70,7 +70,7 @@ void remove_entity(manager_t *m, entities_t *e, Groups_t group){
         m->groups[group].head = m->groups[group].tail = NULL;
     }
 
-    destroy_entity(e);
+    e->destroy(e);
     m->groups[group].currentSize--;
     return;
 }

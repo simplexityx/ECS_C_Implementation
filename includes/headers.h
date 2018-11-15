@@ -26,13 +26,13 @@ typedef enum Groups{
 
 
 typedef struct entities entities_t;
-
+typedef struct component component_t;
 typedef struct spriteComponent spriteComponent_t;
 typedef struct transformComponent transformComponent_t;
 typedef void(*init_t) (void*, void*);
 typedef void(*update_t) (void*);
 typedef void(*draw_t) (void*);
-
+typedef void (*destroy_t)(void*);
 
 
 #endif

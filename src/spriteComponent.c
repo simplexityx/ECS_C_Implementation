@@ -3,9 +3,9 @@
 #include "../includes/renderer.h"
 
 void sprite_init(void *e, void *c){
+
     spriteComponent_t *s = (spriteComponent_t*)c;
-    s->entity = e;
-    transformComponent_t *t = (transformComponent_t*)get_component(s->entity, Transform);
+    transformComponent_t *t = (transformComponent_t*)get_component(e, Transform);
     s->t = t;
     s->dst.x = t->pos.x;
     s->dst.y = t->pos.y;
@@ -42,9 +42,6 @@ void set_texture(void *c, char *name){
 
 spriteComponent_t *sprite_create(const char *texName, uint32_t flags){
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
-    s->init = sprite_init;
-    s->draw = sprite_draw;
-    s->update = sprite_update;
     s->src.x = s->src.y = 0;
     s->src.w = s->src.h = s->dst.w = s->dst.h = 32;    
     s->tex = assetmanager->get_tex(texName);

@@ -16,6 +16,13 @@ struct colliderComponent{
 
 colliderComponent_t *collider_create(Groups_t tag);
 
+void collider_init(void *e, void *c);
+
+
+
+void collider_update(void *c);
+
+void collider_draw(void *c);
 
 
 #endif

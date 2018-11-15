@@ -5,34 +5,45 @@
 #include "spriteComponent.h"
 #include "colliderComponent.h"
 #include "keyboardComponent.h"
-#include <stdarg.h>
 
-typedef struct Components Components_t;
-struct Components{
+typedef struct component component_t;
+struct component{
+
+    void *cData;
     compTypes_t type;
-    void *component;
+
+    entities_t *owner;
+
+    init_t init;
+    update_t update;
+    draw_t draw;
+    destroy_t destroy;
 };
+
+component_t *component_create(void *cData, init_t init, update_t update, draw_t draw, destroy_t destroy, compTypes_t type);
+
 
 struct entities{
 
     update_t update;
     draw_t draw;
+    destroy_t destroy;
     char active;
-    int compCount;
-    Components_t **components;
+    uint32_t map;
+    component_t **components;
     entities_t *next, *prev;
-  
 };
+
 
 entities_t *entities_create();
 
-void add_component(entities_t *e, compTypes_t type, void *c);
+void add_component(entities_t *entity, component_t *component);
 
-void *get_component(void *e, compTypes_t type);
+void *get_component(entities_t *entity, compTypes_t type);
 
-int has_component(entities_t *e, compTypes_t type);
+int has_component(entities_t *entity, compTypes_t type);
 
-void destroy_entity(entities_t *e);
+void remove_component(entities_t *entity, compTypes_t type);
 
 
 

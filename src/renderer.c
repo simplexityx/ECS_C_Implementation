@@ -4,7 +4,6 @@
 
 renderer_t *renderer_create(){
     renderer_t *r = malloc(sizeof(renderer_t));
-
     return r;
 }
 
@@ -22,6 +21,7 @@ void init_textures_to_assetmanager(){
 }
 
 
+unsigned long ftimer1;
 
 void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int screenHeight, renderer_t *r){
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
@@ -43,9 +43,9 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
 
 
     ParseLevel("./Map/map.map");
+    ftimer1 = SDL_GetTicks();
     return;
 }
-
 void update(){
    
 
@@ -70,9 +70,12 @@ void update(){
         grid_insert(g, get_component(projectiles, Collision));
     }
 
-
+    
     manager_refresh(manager);
     grid_destroy(g);
+    unsigned long ftimer2 = SDL_GetTicks();
+    printf("FPS: %f\n", 1000.0f/((float)ftimer2 - (float)ftimer1));
+    ftimer1 = ftimer2;
     return;
 }
 

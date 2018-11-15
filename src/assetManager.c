@@ -1,5 +1,4 @@
 #include "../includes/renderer.h"
-
 int cmpfunc(void *a, void *b){
     return strcmp(a, b);
 }
@@ -20,13 +19,13 @@ void am_bear_create(Vector2D_t pos, Vector2D_t speed, const char *filepath){
     entities_t *entity = entities_create();
     
     transformComponent_t *t = transform_create(pos, speed);
-    add_component(entity, Transform, t);
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, Sprite, s);
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(PLAYER);
-    add_component(entity, Collision, c);
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
 
     manager_insert(manager, entity, PLAYER);
 
@@ -36,18 +35,18 @@ void am_bear_create(Vector2D_t pos, Vector2D_t speed, const char *filepath){
 void am_player_create( Vector2D_t pos, Vector2D_t speed, const char* filepath){
 
     entities_t *entity = entities_create();
-    
+
     transformComponent_t *t = transform_create(pos, speed);
-    add_component(entity, Transform, t);
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, Sprite, s);
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(PLAYER);
-    add_component(entity, Collision, c);
-
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    
     keyboardComponent_t *k = keyboard_create();
-    add_component(entity, KeyBoard, k);
+    add_component(entity, component_create(k, keyboard_init, keyboard_update, keyboard_draw, keyboard_draw, KeyBoard));
 
     manager_insert(manager, entity, PLAYER);
 
@@ -58,13 +57,13 @@ void am_obstacle_create( Vector2D_t pos, Vector2D_t speed, const char* filepath)
     entities_t *entity = entities_create();
     
     transformComponent_t *t = transform_create(pos, speed);
-    add_component(entity, Transform, t);
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, Sprite, s);
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(OBSTACLE);
-    add_component(entity, Collision, c);
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
 
     manager_insert(manager, entity, OBSTACLE);
 }
@@ -73,28 +72,27 @@ void am_bullet_create(Vector2D_t pos, Vector2D_t speed, const char *filepath){
 
     entities_t *entity = entities_create();
     transformComponent_t *t = transform_create(pos, speed);
-    add_component(entity, Transform, t);
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, Sprite, s);
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(PROJECTILES);
-    add_component(entity, Collision, c);
-
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
     manager_insert(manager, entity, PROJECTILES);
 }
 
 void am_tile_create(Vector2D_t pos, const char *filepath){
     entities_t *entity = entities_create();
     
-    transformComponent_t *t = transform_create(pos, Vector2(0,0));
-    add_component(entity, Transform, t);
+     transformComponent_t *t = transform_create(pos, Vector2(0,0));
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, Sprite, s);
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(TERRAIN);
-    add_component(entity, Collision, c);
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
 
     manager_insert(manager, entity, TERRAIN);
 }
