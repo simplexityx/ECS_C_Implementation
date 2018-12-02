@@ -1,4 +1,8 @@
 #include "../includes/renderer.h"
+#include "../includes/tileComponent.h"
+#include "../includes/textComponent.h"
+#include "../includes/aiComponent.h"
+#include "../includes/particleComponent.h"
 int cmpfunc(void *a, void *b){
     return strcmp(a, b);
 }
@@ -24,10 +28,18 @@ void am_bear_create(Vector2D_t pos, Vector2D_t speed, const char *filepath){
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
     add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
-    colliderComponent_t *c = collider_create(PLAYER);
+    colliderComponent_t *c = collider_create(CREATURE);
     add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
 
-    manager_insert(manager, entity, PLAYER);
+    statComponent_t *stat = stat_create(100, 20, 100);
+    add_component(entity, component_create(stat, stat_init, stat_update, stat_draw, stat_destroy, Stat));
+
+    
+
+    aiComponent_t *ai = ai_create(get_group(manager, PLAYER), 200);
+    add_component(entity, component_create(ai, ai_init, ai_update, ai_draw, ai_destroy, AI));
+
+    manager_insert(manager, entity, CREATURE);
 
 }
 
@@ -39,7 +51,7 @@ void am_player_create( Vector2D_t pos, Vector2D_t speed, const char* filepath){
     transformComponent_t *t = transform_create(pos, speed);
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
-    spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
+    spriteComponent_t *s = sprite_create(filepath, ANIMATED);
     add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
 
     colliderComponent_t *c = collider_create(PLAYER);
@@ -48,6 +60,9 @@ void am_player_create( Vector2D_t pos, Vector2D_t speed, const char* filepath){
     keyboardComponent_t *k = keyboard_create();
     add_component(entity, component_create(k, keyboard_init, keyboard_update, keyboard_draw, keyboard_draw, KeyBoard));
 
+    statComponent_t *stat = stat_create(100, 20, 100);
+    add_component(entity, component_create(stat, stat_init, stat_update, stat_draw, stat_destroy, Stat));
+    
     manager_insert(manager, entity, PLAYER);
 
 }
@@ -82,10 +97,10 @@ void am_bullet_create(Vector2D_t pos, Vector2D_t speed, const char *filepath){
     manager_insert(manager, entity, PROJECTILES);
 }
 
-void am_tile_create(Vector2D_t pos, const char *filepath){
+void am_tile_create(Vector2D_t pos, const char *filepath, tileTypes_t tileType){
     entities_t *entity = entities_create();
     
-     transformComponent_t *t = transform_create(pos, Vector2(0,0));
+    transformComponent_t *t = transform_create(pos, Vector2(0,0));
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
@@ -94,7 +109,43 @@ void am_tile_create(Vector2D_t pos, const char *filepath){
     colliderComponent_t *c = collider_create(TERRAIN);
     add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
 
+    tileComponent_t *tile = tile_create(tileType);
+    add_component(entity, component_create(tile, tile_init, tile_update, tile_draw, tile_destroy, Tile));
+
+    
     manager_insert(manager, entity, TERRAIN);
+}
+
+
+void am_text_create(Vector2D_t pos, char *characters){
+
+    entities_t *entity = entities_create();
+
+    transformComponent_t *t = transform_create(pos, Vector2(0,0));
+    add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
+    textComponent_t *te = text_create(characters);
+    add_component(entity, component_create(te, text_init, text_update, text_draw, text_destroy, Text));
+
+
+    manager_insert(manager, entity, UI);
+}
+
+
+void am_create_particles(Vector2D_t pos, int amountOfParticles){
+
+
+    for(int i = 0; i < amountOfParticles; i++){
+        entities_t *entity = entities_create();
+
+        transformComponent_t *t = transform_create(pos, Vector2(rand() % 200, rand() % 200));
+        add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_draw, Transform));
+
+        particleComponent_t *p = particle_create(5000);
+        add_component(entity, component_create(p, particle_init, particle_update, particle_draw, particle_destroy, Particle));
+        manager_insert(manager, entity, PARTICLE);
+
+    }
+    
 }
 
 
@@ -129,7 +180,8 @@ assetManager_t *assetManager_create(){
     a->create_bear = am_bear_create;
     a->add_tex = add_texture;
     a->get_tex = get_texture;
-    
+    a->create_text = am_text_create;
+    a->generate_particles = am_create_particles;
     return a;
 }
 

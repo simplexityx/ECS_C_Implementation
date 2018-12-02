@@ -1,6 +1,7 @@
-2. Make tiles into components with own behaviour
-3. Stats/Items/Status effects
-4. AI
-5. UI
+1. fix keyboard component (observable)
+2. fix collision between player and melee (invis frames?? timers?? idk)
+3. improve collision
+4. particles
+5. levels
 6. Network
  

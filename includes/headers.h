@@ -11,7 +11,12 @@ typedef enum compTypes {
     Transform,
     Sprite,
     Collision,
-    KeyBoard
+    KeyBoard,
+    Tile,
+    Stat,
+    Text,
+    AI,
+    Particle
 }compTypes_t;
 
 
@@ -20,8 +25,19 @@ typedef enum Groups{
     OBSTACLE,
     PROJECTILES,
     TERRAIN,
-    STATIC
+    STATIC,
+    CREATURE,
+    UI,
+    PARTICLE
 }Groups_t;
+
+typedef enum tileTypes{
+    GRASS,
+    WATER,
+    ROCK,
+    FIRE
+}tileTypes_t;
+
 
 
 
@@ -29,6 +45,9 @@ typedef struct entities entities_t;
 typedef struct component component_t;
 typedef struct spriteComponent spriteComponent_t;
 typedef struct transformComponent transformComponent_t;
+typedef struct tileComponent tileComponent_t;
+typedef struct statComponent statComponent_t;
+
 typedef void(*init_t) (void*, void*);
 typedef void(*update_t) (void*);
 typedef void(*draw_t) (void*);

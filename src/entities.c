@@ -55,7 +55,6 @@ void add_component(entities_t *entity, component_t *component){
 
 void *get_component(entities_t *entity, compTypes_t type){
     
-
     assert(has_component(entity, type) == 1);
     
     return entity->components[type]->cData;    

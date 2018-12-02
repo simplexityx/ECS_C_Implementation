@@ -2,6 +2,8 @@
 #include "../includes/entities.h"
 #include "../includes/renderer.h"
 
+
+
 void sprite_init(void *e, void *c){
 
     spriteComponent_t *s = (spriteComponent_t*)c;
@@ -16,7 +18,7 @@ void sprite_draw(void *c){
     spriteComponent_t *s = (spriteComponent_t*)c;
     
     draw_texture(s->tex, s->src, s->dst, s->flip);
-
+    
     return;
 }
 
@@ -43,11 +45,23 @@ void set_texture(void *c, char *name){
 spriteComponent_t *sprite_create(const char *texName, uint32_t flags){
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
     s->src.x = s->src.y = 0;
-    s->src.w = s->src.h = s->dst.w = s->dst.h = 32;    
     s->tex = assetmanager->get_tex(texName);
+    
+    if(flags == 0){
+        SDL_QueryTexture(s->tex, NULL, NULL, &s->src.w, &s->src.h);
+        s->dst.w = s->src.w;
+        s->dst.h = s->src.h;
+        
+    }else{
+        s->src.w = s->src.h = s->dst.w = s->dst.h = 32;
+    }
+    
+    
+    
     s->flip = 0;
     s->currentFrame = 0;
     s->currentState = IDLE;
     s->flags = flags;
+    s->set_tex = set_texture;
     return s;
 }

@@ -1,6 +1,7 @@
 #include "../includes/TerrainManager.h"
 #include "../includes/renderer.h"
 #include <stdio.h>
+
 void ParseLevel(char *filepath){
 
     FILE *f = fopen(filepath, "r");
@@ -14,13 +15,14 @@ void ParseLevel(char *filepath){
             k -= 48;
             switch(k){
                 case GRASS:
-                    assetmanager->create_tile(Vector2(x * 32, y * 32), "grass");
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "grass", GRASS);
+
                     break;
                 case WATER:
-                    assetmanager->create_tile(Vector2(x * 32, y * 32), "water");
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "water", WATER);
                     break;
-                case ROCKS:
-                    assetmanager->create_tile(Vector2(x * 32, y * 32), "rock");
+                case ROCK:
+                    assetmanager->create_tile(Vector2(x * 32, y * 32), "rock", ROCK);
                     break;
             }
         }

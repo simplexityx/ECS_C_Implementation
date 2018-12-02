@@ -1,19 +1,17 @@
 CC := gcc
-CFLAGS := -g -Wall -Wextra
-LINKFLAGS := -std=c99 -lpthread -lSDL2_image `sdl2-config --cflags --libs`
+CFLAGS := -g
+LINKFLAGS := -std=c99 -lpthread -lm -lSDL2_image -lSDL2_ttf `sdl2-config --cflags --libs` 
 RM := rm
 .PHONY: $(TARGET)
 .PHONY: clean
 
 MKDIR_P := mkdir -p
 
-VPATH := ./src/ ./obj/ ./includes/
-
+VPATH := ./src/ ./obj/ ./includes/ 
 
 SRC_PATH := ./src/
 OBJ_PATH := ./obj/
 INC_PATH := -I ./includes
-
 
 TARGET := ECS
 
@@ -30,7 +28,13 @@ OBJ1 := main.o \
 		gridMap.o \
 		TerrainManager.o \
 		hashmap.o \
-		vector2D.o 
+		vector2D.o \
+		tileComponent.o \
+		statComponent.o \
+		textComponent.o \
+		aiComponent.o \
+		observable.o \
+		particleComponent.o
 		
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))

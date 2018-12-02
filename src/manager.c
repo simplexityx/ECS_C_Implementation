@@ -17,7 +17,6 @@ manager_t *manager_create(){
 void manager_insert(manager_t *m, entities_t *e, Groups_t group){
 
     if(m->groups[group].head == NULL){
-        printf("Creating Group: %d\n", group);
         m->currentActiveGroups++;
         m->groups[group].head = m->groups[group].tail = e;
         m->groups[group].currentSize++;
@@ -27,6 +26,8 @@ void manager_insert(manager_t *m, entities_t *e, Groups_t group){
     e->prev = tmp;
     tmp->next = e;
     m->groups[group].tail = e;
+    m->groups[group].currentSize++;
+
     return;
 }
 

@@ -7,7 +7,7 @@
 
 #define PIXELSX 128
 #define PIXESLY 128
-#define ELEMENTS_PER_CELL 100
+#define ELEMENTS_PER_CELL 200
 typedef int (*collision_t) (colliderComponent_t *, colliderComponent_t *);
 
 typedef struct elem elem_t;

@@ -12,7 +12,7 @@ void transform_update(void *c){
     unsigned long deltaTime = currentTime - t->lastUpdate;
     t->pos.x += t->speed.x *(deltaTime / 1000.0f);
     t->pos.y += t->speed.y *(deltaTime / 1000.0f);
-   
+    
     t->lastUpdate = currentTime;
 
     return;
