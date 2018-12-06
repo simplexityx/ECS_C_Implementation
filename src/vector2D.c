@@ -38,27 +38,17 @@ double calculate_distance(Vector2D_t v1, Vector2D_t v2){
     return sqrt(pow(vTmp.x, 2) + pow(vTmp.y, 2));
 }
 
+double calc_distance(Vector2D_t v){
+    return sqrt(pow(v.x, 2) + pow(v.y, 2));
+}
+
 Vector2D_t normalizeVector(Vector2D_t v){
 
-    Vector2D_t vr;
+    double length = calc_distance(v);
 
-    if(v.x > 0){
-        vr.x = 1;
-    }else if(v.x < 0){
-        vr.x = -1;
-    }else if(v.x == 0){
-        vr.x = 0;
-    }
-
-    if(v.y > 0){
-        vr.y = 1;
-    }else if(v.y < 0){
-        vr.y = -1;
-    }else if(v.y == 0){
-        vr.y = 0;
-    }
-
-    return vr;
+    v.x /= length;
+    v.y /= length;
+    return v;
 }
 
 void printVector(Vector2D_t *v){

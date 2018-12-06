@@ -23,14 +23,13 @@ struct aiComponent{
     statComponent_t *s;
     ai_state_t ai_state;
     change_state_t change_state;
-    int moveSpeed, status;
     char pathn;
     Vector2D_t homePoint;
     Vector2D_t path[2];
 };
 
 
-aiComponent_t *ai_create(int moveSpeed);
+aiComponent_t *ai_create();
 
 void ai_init(void *e, void *c);
 void ai_update(void *c);

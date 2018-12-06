@@ -82,7 +82,7 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
 void update(){
     
     
-
+    
     grid_t *g = grid_create();
    
     for(entities_t *terrain = get_group(manager, TERRAIN); terrain != NULL; terrain = terrain->next){
@@ -101,11 +101,11 @@ void update(){
         }
 
     }
-    
     for(entities_t *tmp = get_group(manager, PLAYER);tmp != NULL; tmp = tmp->next){
         tmp->update(tmp);
         grid_insert(g, get_component(tmp, Collision));
     }
+   
 
     for(entities_t *creatures = get_group(manager, CREATURE); creatures != NULL; creatures = creatures->next){
         creatures->update(creatures);
@@ -124,6 +124,8 @@ void update(){
     
 
     grid_check_collision(g);
+
+    
     manager_refresh(manager);
     grid_destroy(g);
     
@@ -155,7 +157,7 @@ void eventHandler(void *r){
             entities_t *pl = get_group(manager, PLAYER);
             transformComponent_t *tmp = get_component(pl, Transform);
             //assetmanager->generate_particles(Vector2(x, y), 100);
-            tmp->set_point(tmp, Vector2(x, y));
+            tmp->set_point(tmp, Vector2(x, y), 1);
         }
     }
     return;

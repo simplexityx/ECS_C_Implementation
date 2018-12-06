@@ -3,7 +3,7 @@
 #include "headers.h"
 #include "vector2D.h"
 typedef void (*set_trans_t) (void *,int, int);
-typedef void (*set_point_t) (transformComponent_t *, Vector2D_t);
+typedef int (*set_point_t) (transformComponent_t *, Vector2D_t, char);
 
 struct transformComponent{
     Vector2D_t pos, speed, oldPos;
@@ -22,7 +22,7 @@ void transform_update(void *c);
 
 void transform_draw(void *c);
 
-
+void transform_destroy(void *c);
 
 
 #endif

@@ -15,7 +15,9 @@ void keyboard_init(void *e, void *c){
 
 void keyboard_update(void *c){
     keyboardComponent_t *k = (keyboardComponent_t*)c;
-    
+    if(k->t->moving == 1){
+        return;
+    }
     k->keyboard_state_array = SDL_GetKeyboardState(NULL);
   
     Vector2D_t tmp = Vector2(0, 0);

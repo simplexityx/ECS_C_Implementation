@@ -62,10 +62,10 @@ void *get_component(entities_t *entity, compTypes_t type){
 }
 
 int has_component(entities_t *entity, compTypes_t type){
-    if(checkmap(entity->map, type) == 0){
+    if(entity->components[type] == NULL)
         return 0;
-    }
-    return 1;
+    else
+        return 1;
 }
 
 void remove_component(entities_t *entity, compTypes_t type){
