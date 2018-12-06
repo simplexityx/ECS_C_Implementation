@@ -48,8 +48,9 @@ uint32_t reachedPointT(uint32_t i, void *data){
 
 int set_transform_point(transformComponent_t *t, Vector2D_t v, char forced){
     if(t->moving == 0){
-        if(forced){
-            t->moving = 1;
+        
+        if(forced > t->moving){
+            t->moving = forced;
         }else{
             SDL_RemoveTimer(t->timerId);
         }

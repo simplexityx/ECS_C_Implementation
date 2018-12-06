@@ -6,6 +6,7 @@
 typedef enum states{
     PATROL,
     ATTACK,
+    HOME,
     MOVING
 }states_t;
 

@@ -29,10 +29,8 @@ void ai_update_attacking_state(aiComponent_t *ai){
         ai->change_state(ai, PATROL);
         return;
     }
-
-
-
-
+    ai->t->moving = 0;
+    ai->t->set_point(ai->t, enemyPos->pos, 0);
     return;
 }
 
@@ -51,11 +49,6 @@ void ai_update_patrolling_state(aiComponent_t *ai){
     return;
 }
 
-void ai_update_return_home(aiComponent_t *ai){
-
-    ai->t->set_point(ai->t, ai->homePoint, 1);
-    return;
-}
 
 
 void ai_update(void *c){
@@ -88,6 +81,8 @@ void ai_change_state(aiComponent_t *ai, states_t state){
             printf("start attacking sequence\n");
             ai->ai_state = ai_update_attacking_state;
             break;
+
+
 
         default:
             break;

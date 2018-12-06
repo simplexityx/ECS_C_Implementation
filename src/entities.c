@@ -47,7 +47,6 @@ void add_component(entities_t *entity, component_t *component){
     
     component->init(entity, component->cData);
     component->owner = entity;   
-    addmap(&entity->map, component->type);
     entity->components[component->type] = component;
     
     return;
