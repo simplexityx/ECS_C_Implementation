@@ -26,10 +26,10 @@ void am_bear_create(Vector2D_t pos, int speed, const char *filepath, Vector2D_t 
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw, transform_destroy, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite));
 
     colliderComponent_t *c = collider_create(CREATURE, 1);
-    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_destroy, Collision));
 
     statComponent_t *stat = stat_create(100, 20, 100);
     add_component(entity, component_create(stat, stat_init, stat_update, stat_draw, stat_destroy, Stat));
@@ -52,13 +52,13 @@ void am_player_create( Vector2D_t pos, int speed, const char* filepath){
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw,  transform_destroy, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, ANIMATED);
-    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite));
 
     colliderComponent_t *c = collider_create(PLAYER, 0);
-    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_destroy, Collision));
     
     keyboardComponent_t *k = keyboard_create();
-    add_component(entity, component_create(k, keyboard_init, keyboard_update, keyboard_draw, keyboard_draw, KeyBoard));
+    add_component(entity, component_create(k, keyboard_init, keyboard_update, keyboard_draw, keyboard_destroy, KeyBoard));
 
     statComponent_t *stat = stat_create(100, 20, 100);
     add_component(entity, component_create(stat, stat_init, stat_update, stat_draw, stat_destroy, Stat));
@@ -75,10 +75,10 @@ void am_obstacle_create( Vector2D_t pos, int speed, const char* filepath){
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw,  transform_destroy, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite));
 
     colliderComponent_t *c = collider_create(OBSTACLE, 0);
-    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_destroy, Collision));
 
     manager_insert(manager, entity, OBSTACLE);
 }
@@ -90,10 +90,10 @@ void am_bullet_create(Vector2D_t pos, Vector2D_t speed, int moveSpeed, const cha
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw,  transform_destroy, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite));
 
     colliderComponent_t *c = collider_create(PROJECTILES, 0);
-    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_destroy, Collision));
     manager_insert(manager, entity, PROJECTILES);
 }
 
@@ -104,10 +104,10 @@ void am_tile_create(Vector2D_t pos, const char *filepath, tileTypes_t tileType){
     add_component(entity, component_create(t, transform_init, transform_update, transform_draw,  transform_destroy, Transform));
 
     spriteComponent_t *s = sprite_create(filepath, NOTANIMATED);
-    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_draw, Sprite));
+    add_component(entity, component_create(s, sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite));
 
     colliderComponent_t *c = collider_create(TERRAIN, 0);
-    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_draw, Collision));
+    add_component(entity, component_create(c, collider_init, collider_update, collider_draw, collider_destroy, Collision));
 
     tileComponent_t *tile = tile_create(tileType);
     add_component(entity, component_create(tile, tile_init, tile_update, tile_draw, tile_destroy, Tile));

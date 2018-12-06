@@ -13,7 +13,7 @@ void set_invincible(void *component){
 
     statComponent_t *s = (statComponent_t *)component;
     s->invincible = 1;
-    SDL_AddTimer(INV_TIME, unset_invincible, s);
+    s->timerId = SDL_AddTimer(INV_TIME, unset_invincible, s);
     
     return;
 }
@@ -63,6 +63,7 @@ statComponent_t *stat_create(short hp, short strength, short mana){
     s->mana = mana;
     s->set_hp = stat_set_hp;
     s->invincible = 0;
+    s->timerId = -1;
     s->visionRange = 200;
     s->observable = observable_create(stat_subscribe, stat_unsubscribe);
     return s;
@@ -84,7 +85,11 @@ void stat_draw(void *c){
 }
 
 void stat_destroy(void *c){
-    free(c);
+
+    statComponent_t *s = (statComponent_t *)c;
+    SDL_RemoveTimer(s->timerId);
+    observable_destroy(s->observable);
+    free(s);
     return;
 }
 

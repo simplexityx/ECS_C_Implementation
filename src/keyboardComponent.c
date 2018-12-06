@@ -62,6 +62,7 @@ void keyboard_draw(void *c){
 
 
 void keyboard_destroy(void *c){
+
     free(c);
 }
 

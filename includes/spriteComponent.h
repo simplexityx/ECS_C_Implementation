@@ -38,6 +38,7 @@ void sprite_draw(void *c);
 
 void sprite_update(void *c);
 
+void sprite_destroy(void *c);
 
 
 

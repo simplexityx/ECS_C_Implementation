@@ -4,6 +4,7 @@
 #include "../includes/tileComponent.h"
 #include "../includes/textComponent.h"
 #include <assert.h>
+#include <SDL2/SDL_image.h>
 renderer_t *renderer_create(){
     renderer_t *r = malloc(sizeof(renderer_t));
     return r;
@@ -35,11 +36,11 @@ void setup_ui(){
 
     hp_bar = entities_create();
     enemy_hp_bar = entities_create();
-    add_component(hp_bar, component_create(transform_create(Vector2(100, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_update, Transform));
+    add_component(hp_bar, component_create(transform_create(Vector2(100, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_destroy, Transform));
     add_component(hp_bar, component_create(text_create("placeholder"), text_init, text_update, text_draw, text_destroy, Text));
 
 
-    add_component(enemy_hp_bar, component_create(transform_create(Vector2(600, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_update, Transform));
+    add_component(enemy_hp_bar, component_create(transform_create(Vector2(600, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_destroy, Transform));
     add_component(enemy_hp_bar, component_create(text_create("placeholder"), text_init, text_update, text_draw, text_destroy, Text));
 
     manager_insert(manager, hp_bar, UI);
@@ -66,7 +67,7 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     }
 
     
-   
+    IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
 
     r->running = 1;
     manager = manager_create();
@@ -163,11 +164,16 @@ void eventHandler(void *r){
 }
 
 void clean(renderer_t *r){
-    TTF_Quit();
+  
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(r->win);
     destroy_manager(manager);
     assetManager_destroy(assetmanager);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
     free(r);
+    
     return;
 }

@@ -62,6 +62,7 @@ void ai_draw(void *c){
     return;
 }
 void ai_destroy(void *c){
+
     free(c);
     return;
 }

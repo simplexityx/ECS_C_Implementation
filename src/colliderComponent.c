@@ -51,6 +51,7 @@ void collider_draw(void *c){
 }
 
 void collider_destroy(void *c){
+
     free(c);
 }
 

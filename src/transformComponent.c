@@ -24,6 +24,7 @@ void transform_draw(void *c){
 }
 
 void transform_destroy(void *c){
+
     transformComponent_t *t = (transformComponent_t *)c;
     SDL_RemoveTimer(t->timerId);
     free(t);
@@ -78,7 +79,7 @@ transformComponent_t *transform_create(Vector2D_t pos, Vector2D_t speed, int mov
 
     t->lastUpdate = SDL_GetTicks();
     t->moveSpeed = moveSpeed;
-
+    t->timerId = -1;
     t->moving = 0;
     return t;
 }

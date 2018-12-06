@@ -111,6 +111,7 @@ void entity_destroy(void *e){
             free(en->components[i]);
         }  
     }
+    free(en->components);
     free(e);
 }
 

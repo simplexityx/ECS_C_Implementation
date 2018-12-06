@@ -53,8 +53,10 @@ void text_draw(void *c){
 }
 
 void text_destroy(void *c){
+
     textComponent_t *t = (textComponent_t *)c;
-    SDL_DestroyTexture(t->texture);
+    if(t->texture != NULL)
+        SDL_DestroyTexture(t->texture);
     free((t->observer));
     free(t);    
     return;
@@ -64,6 +66,7 @@ void text_destroy(void *c){
 static void change_texture(void *c, char *text){
     textComponent_t *t = (textComponent_t *)c;
     SDL_Color color = {0, 0 ,0 ,0};
+    SDL_DestroyTexture(t->texture);
     t->texture = load_UI_text(text, color);
     t->textureRec.x = t->t->pos.x;
     t->textureRec.y = t->t->pos.y;

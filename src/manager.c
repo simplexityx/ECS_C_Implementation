@@ -79,7 +79,6 @@ void remove_entity(manager_t *m, entities_t *e, Groups_t group){
 
 
 void manager_refresh(manager_t *m){
-
     for(int i = 0; i < MAXCOMPONENTS; i++){
         entities_t * tmp = m->groups[i].head;
         while(tmp != NULL){
@@ -87,7 +86,10 @@ void manager_refresh(manager_t *m){
                 remove_entity(m, tmp, i);
             }
             tmp = tmp->next;
+
         }
+
+        
     }
 }
 

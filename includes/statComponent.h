@@ -9,7 +9,7 @@ typedef void (*set_invis_t)(void *, char);
 typedef struct statComponent statComponent_t;
 struct statComponent{
     char invincible;
-    int hp, strength, mana, visionRange;
+    int hp, strength, mana, visionRange, timerId;
     observable_t *observable;
     set_hp_t set_hp;
 };

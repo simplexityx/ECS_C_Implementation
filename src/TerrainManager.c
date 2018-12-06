@@ -27,5 +27,6 @@ void ParseLevel(char *filepath){
             }
         }
     }
+    fclose(f);
     return;
 }

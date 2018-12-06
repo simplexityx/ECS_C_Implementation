@@ -37,6 +37,7 @@ void particle_draw(void *c){
 }
 
 void particle_destroy(void *c){
+
     particleComponent_t *p = (particleComponent_t *)c;
 
     SDL_RemoveTimer(p->timerId);
