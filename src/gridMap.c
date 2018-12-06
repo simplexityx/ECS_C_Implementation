@@ -4,7 +4,8 @@
 #include "../includes/statComponent.h"
 #include "../includes/renderer.h"
 #include "../includes/textComponent.h"
-int AABB(colliderComponent_t *a, colliderComponent_t *b){
+#include "../includes/aiComponent.h"
+/*int AABB(colliderComponent_t *a, colliderComponent_t *b){
 
     if(a->col.x < b->col.x  + b->col.w &&
        a->col.x + a->col.w > b->col.x &&
@@ -14,37 +15,49 @@ int AABB(colliderComponent_t *a, colliderComponent_t *b){
         return 1;
     }
     return 0;
+}*/
+
+int AABB(SDL_Rect *a, SDL_Rect *b){
+    if(a->x < b->x  + b->w &&
+       a->x + a->w > b->x &&
+       a->y < b->y + b->h &&
+       a->y + a->h > b->y)
+    {
+        return 1;
+    }
+    return 0;
+    
+
 }
 
 
-
+static int count;
 //co1 collides, co2 is the one being collided into
 //this function is fucked up must rewrite (perhaps use observables)
 void collisionReaction(void *c1, void *c2){
     colliderComponent_t *co1 = (colliderComponent_t*)c1;
     colliderComponent_t *co2 = (colliderComponent_t*)c2;
 
-    switch(co1->tag){
+    switch(co1->col[0].tag){
         case CREATURE:
 
-            if(co2->tag == CREATURE || co2->tag == PLAYER){
+            if(co2->col[0].tag == CREATURE || co2->col[0].tag == PLAYER){
                 transformComponent_t *t1 = get_component(co1->entity, Transform);
 
                 transformComponent_t *t2 = get_component(co2->entity, Transform);
                 statComponent_t *s = get_component(co2->entity, Stat);
-                //timer should be used here
                 
-                t2->set_trans(t2, t1->speed.x * 3, t1->speed.y * 3);
-                t1->set_trans(t1, t1->speed.x *= -1, t1->speed.y *= -1);
+                t2->set_speed(t2, t1->speed.x * 3, t1->speed.y * 3);
+                t1->set_speed(t1, t1->speed.x *= -1, t1->speed.y *= -1);
                 s->set_hp(s, 15);
             }
             break;
 
         case PROJECTILES:
             
-            if(co2->tag != PLAYER && co2->tag != TERRAIN){
+            if(co2->col[0].tag != PLAYER && co2->col[0].tag != TERRAIN){
                 entities_t *e = (entities_t*)co1->entity;
-                if(has_component(co2->entity, Stat)){
+                if(has_component(co2->entity, Stat) == 1){
                     statComponent_t *s = get_component(co2->entity, Stat);
                     textComponent_t *text = get_component(enemy_hp_bar, Text);
                     s->observable->subscribe(s, text->observer);
@@ -55,18 +68,16 @@ void collisionReaction(void *c1, void *c2){
                         entity->active = 0;
                     }
                 }
-                transformComponent_t *trans = get_component(e, Transform);
-                assetmanager->generate_particles(trans->pos, 100);
                 e->active = 0;
             }
-            
-            
-            
-            break;    
+            break;  
+
         case PLAYER:
             
-            if(has_component(co2->entity, Tile)){
+            if(has_component(co2->entity, Tile) > 0){
                 tileComponent_t *tile = (tileComponent_t *)get_component(co2->entity, Tile);
+                if(tile == NULL)
+                    return;
                 spriteComponent_t *s = (spriteComponent_t *)get_component(co1->entity, Sprite);
                 if(tile->tileType == WATER){
                     s->set_tex(s, "boat");
@@ -75,14 +86,35 @@ void collisionReaction(void *c1, void *c2){
                 }
             }else{
                 co1->t->pos = co1->t->oldPos;
-
             }
+
+
             break;
+
         default:
             break;
     }
     
     return;
+}
+
+
+void trigger_reaction(colliderComponent_t *c1, colliderComponent_t *c2){
+
+    if(c2->col[0].tag != PLAYER && c2->col[0].tag != CREATURE){
+        return;
+    }
+
+    
+
+    aiComponent_t *ai = get_component(c1->entity, AI);
+
+    if(ai->focus == c2->entity)
+        return;
+
+    ai->focus = c2->entity;
+    ai->change_state(ai, ATTACK);
+
 }
 
 
@@ -98,7 +130,6 @@ elem_t *elem_create(void *rect){
 grid_t *grid_create(){
 
     grid_t *g = malloc(sizeof(grid_t));
-    g->collision = AABB;
     for(int x = 0; x < 2; x++){
         for(int y = 0; y < 2; y++){
             g->c[x][y].elem = calloc(ELEMENTS_PER_CELL, sizeof(elem_t *));
@@ -109,30 +140,49 @@ grid_t *grid_create(){
 }
 
 
-int check_collision(grid_t *g, int x, int y, int idx){
-    if(idx == 0){
-        return 0;
-    }
-    for(int i = 0; i < idx; i++){
-        //DO AABB CHECK HERE AND CALL THE COLLISION COMPONENT FUNCTION
-        if(AABB(g->c[x][y].elem[i]->rect, g->c[x][y].elem[idx]->rect) == 1){
-            colliderComponent_t *c = (colliderComponent_t *) g->c[x][y].elem[idx]->rect;
-            colliderComponent_t *c2 = (colliderComponent_t *) g->c[x][y].elem[i]->rect;
-            collisionReaction(c, c2);
+
+void check_collision2(grid_t *g, int x, int y, int idx){
+    colliderComponent_t *c1 = g->c[x][y].elem[idx]->rect;
+    for(int i = 0; i < g->c[x][y].curSize; i++){
+        colliderComponent_t *c2 = g->c[x][y].elem[i]->rect;
+        if(i != idx){
+
+            if(c1->vision == 1){
+                if(AABB(&c1->col[1].col, &c2->col[0].col) == 1){
+                    trigger_reaction(c1, c2);
+                }
+            }
+            if(AABB(&c1->col[0].col, &c2->col[0].col) == 1){
+                collisionReaction(c1, c2);
+            }
         }
     }
-
-    return 0;
+    return;
 }
 
+
+void grid_check_collision(grid_t *grid){
+
+    for(int x = 0; x < 2; x++){
+        for(int y = 0; y < 2; y++){
+            for(int i = 0; i < grid->c[x][y].curSize; i++){
+                check_collision2(grid, x, y, i);
+            }
+        }
+    }
+}
+
+
+
+
 int grid_insert(grid_t *grid, colliderComponent_t *collider){
-    if(collider->col.x >= 800 || collider->col.y >= 600 || collider->col.x < 0 || collider->col.y < 0){
+    if(collider->col[0].col.x >= 800 || collider->col[0].col.y >= 600 || collider->col[0].col.x < 0 || collider->col[0].col.y < 0){
         return 0;
     }
 
 
-    int cellX = collider->col.x / (800/2);
-    int cellY = collider->col.y / (600/2);
+    int cellX = collider->col[0].col.x / (800/2);
+    int cellY = collider->col[0].col.y / (600/2);
     int currentSize = grid->c[cellX][cellY].curSize;
     elem_t *elem = elem_create(collider);
     
@@ -141,10 +191,10 @@ int grid_insert(grid_t *grid, colliderComponent_t *collider){
     
     
    
-    int res = check_collision(grid, cellX , cellY, currentSize);
+    //int res = check_collision(grid, cellX , cellY, currentSize);
     grid->c[cellX][cellY].curSize++;
 
-    return res;
+    return 0;
 }
 
 

@@ -20,17 +20,17 @@ void keyboard_update(void *c){
   
     Vector2D_t tmp = Vector2(0, 0);
     if (k->keyboard_state_array[SDL_SCANCODE_W]) {
-        tmp.y -= 240;
+        tmp.y -= k->t->moveSpeed;
     }
     if (k->keyboard_state_array[SDL_SCANCODE_S]) {
-        tmp.y += 240;
+        tmp.y += k->t->moveSpeed;
     }
     if (k->keyboard_state_array[SDL_SCANCODE_A]) {
-        tmp.x -= 240;
+        tmp.x -= k->t->moveSpeed;
         k->s->flip = 1;
     }
     if (k->keyboard_state_array[SDL_SCANCODE_D]) {
-        tmp.x += 240;
+        tmp.x += k->t->moveSpeed;
         k->s->flip = 0;
     }
 
@@ -45,12 +45,12 @@ void keyboard_update(void *c){
     if (k->keyboard_state_array[SDL_SCANCODE_SPACE]){
         unsigned long timer2 = SDL_GetTicks();
         if((timer2 - timer1) > 200){
-            assetmanager->create_projectile(Vector2(k->t->pos.x, k->t->pos.y), Vector2(lastPosX * 2, lastPosY * 2), "magic");
+            assetmanager->create_projectile(Vector2(k->t->pos.x, k->t->pos.y), Vector2(lastPosX * 2, lastPosY * 2), k->t->moveSpeed *2, "magic");
             timer1 = timer2;
         }
     }
 
-    k->t->set_trans(k->t, tmp.x, tmp.y);
+    k->t->set_speed(k->t, tmp.x, tmp.y);
     return;
 }
 

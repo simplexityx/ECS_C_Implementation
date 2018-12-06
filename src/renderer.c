@@ -35,11 +35,11 @@ void setup_ui(){
 
     hp_bar = entities_create();
     enemy_hp_bar = entities_create();
-    add_component(hp_bar, component_create(transform_create(Vector2(100, 500), Vector2(0, 0)), transform_init, transform_update, transform_draw, transform_update, Transform));
+    add_component(hp_bar, component_create(transform_create(Vector2(100, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_update, Transform));
     add_component(hp_bar, component_create(text_create("placeholder"), text_init, text_update, text_draw, text_destroy, Text));
 
 
-    add_component(enemy_hp_bar, component_create(transform_create(Vector2(600, 500), Vector2(0, 0)), transform_init, transform_update, transform_draw, transform_update, Transform));
+    add_component(enemy_hp_bar, component_create(transform_create(Vector2(600, 500),Vector2(0,0), 0), transform_init, transform_update, transform_draw, transform_update, Transform));
     add_component(enemy_hp_bar, component_create(text_create("placeholder"), text_init, text_update, text_draw, text_destroy, Text));
 
     manager_insert(manager, hp_bar, UI);
@@ -72,11 +72,10 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     manager = manager_create();
     assetmanager = assetManager_create(manager);
     init_textures_to_assetmanager();
-    assetmanager->create_player( Vector2(400, 200), Vector2(0,0), "wizard");
-    assetmanager->create_bear(Vector2(100, 100), Vector2(0, 0), "bear");
+    assetmanager->create_player( Vector2(400, 200), 200, "wizard");
+    assetmanager->create_bear(Vector2(100, 100), 150, "bear");
 
     setup_ui();
-
     ParseLevel("./Map/map.map");
     return;
 }
@@ -89,7 +88,9 @@ void update(){
     for(entities_t *terrain = get_group(manager, TERRAIN); terrain != NULL; terrain = terrain->next){
         terrain->update(terrain);
         tileComponent_t *t = get_component(terrain, Tile);
+        
         grid_insert(g, get_component(terrain, Collision));
+        
     }
 
 
@@ -121,6 +122,8 @@ void update(){
         particles->update(particles);
     }
     
+
+    grid_check_collision(g);
     manager_refresh(manager);
     grid_destroy(g);
     
@@ -149,8 +152,10 @@ void eventHandler(void *r){
             re->running = 0;
         }else if(re->event.type == SDL_MOUSEBUTTONDOWN){
             SDL_GetMouseState(&x, &y);
-            //assetmanager->create_obstacle( Vector2(x, y),Vector2(0, 0), "box");
-            assetmanager->generate_particles(Vector2(x, y), 100);
+            entities_t *pl = get_group(manager, PLAYER);
+            transformComponent_t *tmp = get_component(pl, Transform);
+            //assetmanager->generate_particles(Vector2(x, y), 100);
+            tmp->set_point(tmp, Vector2(x, y));
         }
     }
     return;

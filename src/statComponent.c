@@ -60,7 +60,7 @@ statComponent_t *stat_create(short hp, short strength, short mana){
     s->mana = mana;
     s->set_hp = stat_set_hp;
     s->invincible = 0;
-    
+    s->visionRange = 200;
     s->observable = observable_create(stat_subscribe, stat_unsubscribe);
     return s;
 }

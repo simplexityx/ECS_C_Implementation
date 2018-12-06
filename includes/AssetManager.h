@@ -4,7 +4,8 @@
 #include "manager.h"
 #include "map.h"
 typedef struct assetManager assetManager_t;
-typedef void(*create_object_t)(  Vector2D_t, Vector2D_t, const char*);
+typedef void(*create_object_t)(  Vector2D_t, int, const char*);
+typedef void (*create_bullet_t) (Vector2D_t, Vector2D_t, int, const char *);
 typedef void(*create_tile_t)(Vector2D_t, const char*,  tileTypes_t tileType);
 typedef SDL_Texture * (*get_texture_t)(char *);
 typedef void (*add_texture_t)( char *, char *);
@@ -19,7 +20,7 @@ struct assetManager{
     create_object_t create_player;
     create_object_t create_bear;
     create_object_t create_obstacle;
-    create_object_t create_projectile;
+    create_bullet_t create_projectile;
     create_tile_t create_tile;
 
     create_text_t create_text;

@@ -56,12 +56,13 @@ void add_component(entities_t *entity, component_t *component){
 void *get_component(entities_t *entity, compTypes_t type){
     
     assert(has_component(entity, type) == 1);
-    
+    if(entity->components[type] == NULL)
+        return NULL;
     return entity->components[type]->cData;    
 }
 
 int has_component(entities_t *entity, compTypes_t type){
-    if(!checkmap(entity->map, type)){
+    if(checkmap(entity->map, type) == 0){
         return 0;
     }
     return 1;

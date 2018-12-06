@@ -35,7 +35,7 @@ int grid_insert(grid_t *grid, colliderComponent_t *rect);
 
 void grid_destroy(grid_t *grid);
 
-
+void grid_check_collision(grid_t *grid);
 
 
 #endif

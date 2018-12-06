@@ -2,15 +2,23 @@
 #define COLLIDER_COMPONENT_H
 #include "headers.h"
 typedef struct colliderComponent colliderComponent_t;
-typedef void (*col_t) (void *, void*);
-struct colliderComponent{
+typedef struct collider collider_t;
+struct collider{
     SDL_Rect col;
-    transformComponent_t *t;
-    void *entity;
     Groups_t tag;
 };
 
-colliderComponent_t *collider_create(Groups_t tag);
+
+typedef void (*col_t) (void *, void*);
+struct colliderComponent{
+    collider_t col[2];
+    transformComponent_t *t;
+    spriteComponent_t *s;
+    void *entity;
+    char vision;
+};
+
+colliderComponent_t *collider_create(Groups_t tag, char vision);
 
 void collider_init(void *e, void *c);
 

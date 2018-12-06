@@ -28,7 +28,8 @@ typedef enum Groups{
     STATIC,
     CREATURE,
     UI,
-    PARTICLE
+    PARTICLE,
+    TRIGGER
 }Groups_t;
 
 typedef enum tileTypes{
