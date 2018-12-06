@@ -2,6 +2,7 @@
 #include "../includes/entities.h"
 #include "../includes/statComponent.h"
 #include "../includes/headers.h"
+#include <assert.h>
 
 void collider_init(void *e, void *c){
     colliderComponent_t *co = (colliderComponent_t*)c;
@@ -49,9 +50,14 @@ void collider_draw(void *c){
     return;
 }
 
+void collider_destroy(void *c){
+    free(c);
+}
 
 colliderComponent_t * collider_create(Groups_t tag, char vision){
     colliderComponent_t *c = malloc(sizeof(colliderComponent_t));
+    assert(c != NULL);
+
     c->vision = vision;
     c->col[0].tag = tag;
     c->col[1].tag = TRIGGER;

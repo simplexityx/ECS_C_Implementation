@@ -5,7 +5,7 @@
 #include <string.h>
 #define MAXCOMPONENTS   32
 #include <SDL2/SDL.h>
-
+#include <assert.h>
 
 typedef enum compTypes {
     Transform,

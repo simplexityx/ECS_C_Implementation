@@ -36,36 +36,32 @@ void set_transform_speed(void *c, int x, int y){
     return;
 }
 
-
 uint32_t reachedPointT(uint32_t i, void *data){
-
+    
     transformComponent_t *t = data;
+    
     t->set_speed(t, 0, 0);
     t->moving = 0;
     return 0;
 }
 
 
-int set_transform_point(transformComponent_t *t, Vector2D_t v, char forced){
-    if(t->moving == 0){
-        
-        if(forced > t->moving){
-            t->moving = forced;
-        }else{
-            SDL_RemoveTimer(t->timerId);
-        }
+int set_transform_point(transformComponent_t *t, Vector2D_t v, char forced, int speed){
+    if(forced >= t->moving){
+        t->moving = forced;
+
+        SDL_RemoveTimer(t->timerId);
         //distance between the two points
         double distance = calculate_distance(t->pos, v);
         //time needed to reach point
-        double timeRequired = distance/t->moveSpeed;
-
+        double timeRequired = distance/speed;
         //set timer
         t->timerId = SDL_AddTimer(timeRequired * 1000, reachedPointT, t);
         Vector2D_t tmp = Vector2( v.x - t->pos.x, v.y - t->pos.y );
 
         tmp = normalizeVector(tmp);
 
-        t->set_speed(t, tmp.x * t->moveSpeed, tmp.y * t->moveSpeed);
+        t->set_speed(t, tmp.x * speed, tmp.y * speed);
         
     }  
     return 0;

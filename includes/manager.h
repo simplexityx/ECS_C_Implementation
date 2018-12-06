@@ -2,6 +2,8 @@
 #define MANAGER_H
 #include "entities.h"
 #include "headers.h"
+#include <assert.h>
+
 #define GROUPMAX    32
 
 typedef struct group group_t;

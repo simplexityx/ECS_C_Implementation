@@ -73,8 +73,8 @@ void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int s
     assetmanager = assetManager_create(manager);
     init_textures_to_assetmanager();
     assetmanager->create_player( Vector2(400, 200), 200, "wizard");
-    assetmanager->create_bear(Vector2(100, 100), 150, "bear");
-
+    assetmanager->create_bear(Vector2(100, 100), 150, "bear", Vector2(50, 50), Vector2(200, 200));
+    assetmanager->create_bear(Vector2(300, 100), 150, "bear", Vector2(350, 50), Vector2(200, 200));
     setup_ui();
     ParseLevel("./Map/map.map");
     return;
@@ -156,8 +156,7 @@ void eventHandler(void *r){
             SDL_GetMouseState(&x, &y);
             entities_t *pl = get_group(manager, PLAYER);
             transformComponent_t *tmp = get_component(pl, Transform);
-            //assetmanager->generate_particles(Vector2(x, y), 100);
-            tmp->set_point(tmp, Vector2(x, y), 1);
+            tmp->set_point(tmp, Vector2(x, y), 1, tmp->moveSpeed);
         }
     }
     return;

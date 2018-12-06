@@ -15,7 +15,7 @@ void keyboard_init(void *e, void *c){
 
 void keyboard_update(void *c){
     keyboardComponent_t *k = (keyboardComponent_t*)c;
-    if(k->t->moving == 1){
+    if(k->t->moving > 0){
         return;
     }
     k->keyboard_state_array = SDL_GetKeyboardState(NULL);
@@ -61,10 +61,16 @@ void keyboard_draw(void *c){
 }
 
 
+void keyboard_destroy(void *c){
+    free(c);
+}
+
 
 
 keyboardComponent_t *keyboard_create(){
     keyboardComponent_t *k = malloc(sizeof(keyboardComponent_t));
+    assert(k != NULL);
+
     return k;
 }
 

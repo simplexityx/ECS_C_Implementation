@@ -26,5 +26,6 @@ void collider_update(void *c);
 
 void collider_draw(void *c);
 
+void collider_destroy(void *c);
 
 #endif

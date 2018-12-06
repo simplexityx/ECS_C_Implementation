@@ -28,6 +28,8 @@ void stat_subscribe(void *component, void *observer){
 void stat_unsubscribe(void *observable, void *observer){
     //TODO
     observable_t *obs = (observable_t *)observable;
+    if(obs->observer == NULL)
+        return;
     obs->observer->on_complete(obs->observer->type, NULL);
     obs->observer = NULL;
     return;
@@ -39,8 +41,8 @@ void stat_set_hp(void *component, int hp){
     if(s->invincible == 1){
         return;
     }
-    assert(s->observable->observer != NULL);
     s->hp -= hp;
+    printf("hp: %d\n", s->hp);
     if(s->observable->observer != NULL){
         s->observable->observer->on_next(s->observable->observer->type, s->hp);
     }
@@ -54,6 +56,7 @@ void stat_set_hp(void *component, int hp){
 
 statComponent_t *stat_create(short hp, short strength, short mana){
     statComponent_t *s = malloc(sizeof(statComponent_t));
+    assert(s != NULL);
 
     s->hp = hp;
     s->strength = strength;
@@ -81,6 +84,7 @@ void stat_draw(void *c){
 }
 
 void stat_destroy(void *c){
+    free(c);
     return;
 }
 

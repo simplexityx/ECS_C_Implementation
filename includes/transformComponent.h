@@ -3,11 +3,18 @@
 #include "headers.h"
 #include "vector2D.h"
 typedef void (*set_trans_t) (void *,int, int);
-typedef int (*set_point_t) (transformComponent_t *, Vector2D_t, char);
+typedef int (*set_point_t) (transformComponent_t *, Vector2D_t, char, int);
+typedef enum status{
+    NONE,
+    MOVING,
+    ATTACKING,
+    DAMAGETAKING
+}status_t;
 
 struct transformComponent{
     Vector2D_t pos, speed, oldPos;
-    int moveSpeed, moving;
+    float moveSpeed; 
+    int moving;
     set_trans_t set_speed;
     set_point_t set_point;
     uint32_t lastUpdate, timerId;

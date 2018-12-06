@@ -27,6 +27,7 @@ void on_complete_text(void *component, void *data){
 textComponent_t *text_create(char *text){
 
     textComponent_t *t = malloc(sizeof(textComponent_t));
+    assert(t != NULL);
     t->observer = observer_create(on_next_text, on_complete_text, t);
     t->texture = NULL;
     
@@ -52,7 +53,10 @@ void text_draw(void *c){
 }
 
 void text_destroy(void *c){
-    
+    textComponent_t *t = (textComponent_t *)c;
+    SDL_DestroyTexture(t->texture);
+    free((t->observer));
+    free(t);    
     return;
 }
 

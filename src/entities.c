@@ -107,7 +107,7 @@ void entity_destroy(void *e){
     entities_t *en = (entities_t *)e;
     for(int i = 0; i < MAXCOMPONENTS; i++){
         if(en->components[i] != NULL){
-            free(en->components[i]->cData);
+            en->components[i]->destroy(en->components[i]->cData);
             free(en->components[i]);
         }  
     }

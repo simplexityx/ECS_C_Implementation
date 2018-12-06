@@ -1,11 +1,13 @@
 #ifndef PARTICLE_COMPONENT_H
 #define PARTICLE_COMPONENT_H
 #include "headers.h"
+#include <assert.h>
+
 
 typedef struct particleComponent particleComponent_t;
 struct particleComponent{
     transformComponent_t *t;
-    int duration;
+    int duration, timerId;
 };
 
 particleComponent_t *particle_create(int maxDuration);

@@ -46,10 +46,28 @@ void collisionReaction(void *c1, void *c2){
 
                 transformComponent_t *t2 = get_component(co2->entity, Transform);
                 statComponent_t *s = get_component(co2->entity, Stat);
+
+                //calculate amount of pushback
+                Vector2D_t pushback;
+                pushback.x = t2->pos.x + t1->speed.x;
+                pushback.y = t2->pos.y + t1->speed.y;
                 
-                t2->set_speed(t2, t1->speed.x * 3, t1->speed.y * 3);
-                t1->set_speed(t1, t1->speed.x *= -1, t1->speed.y *= -1);
+                //calculate amount of negative pushback
+                Vector2D_t nPushback;
+                nPushback.x = t2->pos.x - t1->speed.x;
+                nPushback.y = t2->pos.y - t1->speed.y;
+
+                //set hp (-15)
                 s->set_hp(s, 15);
+                //if hp is less than 0 remove the entity (should move this to the stat component)
+                if(s->hp <= 0){
+                        s->observable->unsubscribe(s->observable, NULL);
+                        entities_t *entity = co2->entity;
+                        entity->active = 0;
+                }
+                //set the reaction of the collision for both parties
+                t2->set_point(t2, pushback, DAMAGETAKING, t2->moveSpeed);
+                t1->set_point(t1, nPushback, DAMAGETAKING, t1->moveSpeed);
             }
             break;
 
@@ -58,8 +76,10 @@ void collisionReaction(void *c1, void *c2){
             if(co2->col[0].tag != PLAYER && co2->col[0].tag != TERRAIN){
                 entities_t *e = (entities_t*)co1->entity;
                 if(has_component(co2->entity, Stat) == 1){
+
                     statComponent_t *s = get_component(co2->entity, Stat);
                     textComponent_t *text = get_component(enemy_hp_bar, Text);
+
                     s->observable->subscribe(s, text->observer);
                     s->set_hp(s, 15);
                     if(s->hp <= 0){
@@ -84,8 +104,6 @@ void collisionReaction(void *c1, void *c2){
                 }else{
                     s->set_tex(s, "wizard");
                 }
-            }else{
-                co1->t->pos = co1->t->oldPos;
             }
 
 
@@ -104,9 +122,6 @@ void trigger_reaction(colliderComponent_t *c1, colliderComponent_t *c2){
     if(c2->col[0].tag != PLAYER && c2->col[0].tag != CREATURE){
         return;
     }
-
-    
-
     aiComponent_t *ai = get_component(c1->entity, AI);
 
     if(ai->focus == c2->entity)

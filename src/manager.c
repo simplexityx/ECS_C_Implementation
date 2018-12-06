@@ -5,6 +5,7 @@
 manager_t *manager_create(){
 
     manager_t *m = malloc(sizeof(manager_t));
+    assert(m != NULL);
     m->currentActiveGroups = 0;
     for(int i = 0; i < MAXCOMPONENTS; i++){
         m->groups[i].head = NULL;

@@ -19,7 +19,7 @@ unsigned long hash_string(void *str)
 }
 
 
-void am_bear_create(Vector2D_t pos, int speed, const char *filepath){
+void am_bear_create(Vector2D_t pos, int speed, const char *filepath, Vector2D_t node1, Vector2D_t node2){
     entities_t *entity = entities_create();
     
     transformComponent_t *t = transform_create(pos, Vector2(0,0), speed);
@@ -36,7 +36,7 @@ void am_bear_create(Vector2D_t pos, int speed, const char *filepath){
 
     
 
-    aiComponent_t *ai = ai_create();
+    aiComponent_t *ai = ai_create(node1, node2);
     add_component(entity, component_create(ai, ai_init, ai_update, ai_draw, ai_destroy, AI));
 
     manager_insert(manager, entity, CREATURE);
@@ -148,9 +148,15 @@ void am_create_particles(Vector2D_t pos, int amountOfParticles){
     
 }
 
+void destroy_tex_map(void *t){
+    SDL_Texture *tex = (SDL_Texture *)t;
+    SDL_DestroyTexture(tex);
+    return;
+}
 
 void assetManager_destroy(assetManager_t *am){
     //leaks memory remember to destroy map at some point.
+    map_destroy(am->map, NULL, destroy_tex_map);
     free(am);
 }
 

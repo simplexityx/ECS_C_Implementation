@@ -4,6 +4,8 @@
 particleComponent_t *particle_create(int maxDuration){
 
     particleComponent_t *p = malloc(sizeof(particleComponent_t));
+    assert(p != NULL);
+
     p->duration = rand() % maxDuration;
     
     return p;
@@ -19,7 +21,7 @@ uint32_t particle_kill(uint32_t i, void *e){
 void particle_init(void *e, void *c){
     particleComponent_t *p = (particleComponent_t *)c;
     p->t = get_component(e, Transform);
-    SDL_AddTimer(p->duration, particle_kill, e);
+    p->timerId = SDL_AddTimer(p->duration, particle_kill, e);
     return;
 }
 
@@ -35,6 +37,9 @@ void particle_draw(void *c){
 }
 
 void particle_destroy(void *c){
-    
+    particleComponent_t *p = (particleComponent_t *)c;
+
+    SDL_RemoveTimer(p->timerId);
+    free(c);
     return;
 }

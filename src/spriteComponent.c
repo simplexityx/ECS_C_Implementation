@@ -1,6 +1,7 @@
 #include "../includes/spriteComponent.h"
 #include "../includes/entities.h"
 #include "../includes/renderer.h"
+#include <assert.h>
 
 
 
@@ -35,6 +36,11 @@ void sprite_update(void *c){
     return;
 }
 
+void sprite_destroy(void *c){
+    free(c);
+}
+
+
 void set_texture(void *c, char *name){
     spriteComponent_t *s = (spriteComponent_t*)c;
     s->tex = assetmanager->get_tex(name);
@@ -44,6 +50,8 @@ void set_texture(void *c, char *name){
 
 spriteComponent_t *sprite_create(const char *texName, uint32_t flags){
     spriteComponent_t *s = malloc(sizeof(spriteComponent_t));
+    assert(s != NULL);
+
     s->src.x = s->src.y = 0;
     s->tex = assetmanager->get_tex(texName);
     

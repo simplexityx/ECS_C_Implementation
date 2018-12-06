@@ -17,4 +17,5 @@ void tile_update(void *c){
 void tile_draw(void *c){
 }
 void tile_destroy(void *c){
+    free(c);
 }
