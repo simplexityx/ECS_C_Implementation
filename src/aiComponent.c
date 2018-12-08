@@ -25,6 +25,7 @@ void ai_init(void *e, void *c){
 void ai_update_attacking_state(aiComponent_t *ai){
 
     transformComponent_t *enemyPos = get_component(ai->focus, Transform);
+    assert(enemyPos != NULL);
     if(calculate_distance(ai->t->pos, enemyPos->pos) > 200){
         ai->change_state(ai, PATROL);
         return;

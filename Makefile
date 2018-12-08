@@ -11,9 +11,14 @@ VPATH := ./src/ ./obj/ ./includes/
 
 SRC_PATH := ./src/
 OBJ_PATH := ./obj/
+OBJ_COMP_PATH := ./obj/components/
 INC_PATH := -I ./includes
+SRC_COMP_PATH := ./src/components/
 
 TARGET := ECS
+
+OBJCOMP := charge.o
+
 
 OBJ1 := main.o \
 		entities.o \
@@ -36,20 +41,25 @@ OBJ1 := main.o \
 		observable.o \
 		particleComponent.o
 		
+COMPOBJ := $(patsubst %, $(OBJ_COMP_PATH)%, $(OBJCOMP))
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))
 
+$(OBJ_COMP_PATH)%.o: $(SRC_COM_PATH)%.c  
+				@echo [CC] $<
+				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
 #build .o
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c  
 				@echo [CC] $<
 				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
 
 #build final binary
-$(TARGET):	$(OBJ)
+$(TARGET):	$(OBJ) $(COMPOBJ)
 			@$(CC) -o $@ $^ $(LINKFLAGS)
 
 #clean all files
 clean:
 		@echo "[Cleaning]"
 		-rm $(OBJ_PATH)*o
+		-rm $(OBJ_COMP_PATH)*o
 		@$(RM) -rfv $(TARGET)
