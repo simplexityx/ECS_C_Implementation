@@ -1,4 +1,4 @@
-#include "../includes/tileComponent.h"
+#include "../../includes/tileComponent.h"
 
 
 tileComponent_t *tile_create(tileTypes_t tile){

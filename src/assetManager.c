@@ -15,11 +15,6 @@
 #define PARTICLE_COMPONENT(duration)               component_create(particle_create(duration), particle_init, particle_update, particle_draw, particle_destroy, Particle)
 
 
-
-
-
-
-
 int cmpfunc(void *a, void *b){
     return strcmp(a, b);
 }

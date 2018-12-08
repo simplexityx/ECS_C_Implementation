@@ -1,6 +1,6 @@
-#include "../includes/particleComponent.h"
-#include "../includes/entities.h"
-#include "../includes/renderer.h"
+#include "../../includes/particleComponent.h"
+#include "../../includes/entities.h"
+#include "../../includes/renderer.h"
 particleComponent_t *particle_create(int maxDuration){
 
     particleComponent_t *p = malloc(sizeof(particleComponent_t));

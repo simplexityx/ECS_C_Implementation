@@ -61,6 +61,8 @@ void *get_component(entities_t *entity, compTypes_t type){
 }
 
 int has_component(entities_t *entity, compTypes_t type){
+    assert(entity != NULL);
+    assert(entity->components != NULL);
     if(entity->components[type] == NULL)
         return 0;
     else

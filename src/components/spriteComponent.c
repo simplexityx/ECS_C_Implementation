@@ -1,6 +1,6 @@
-#include "../includes/spriteComponent.h"
-#include "../includes/entities.h"
-#include "../includes/renderer.h"
+#include "../../includes/spriteComponent.h"
+#include "../../includes/entities.h"
+#include "../../includes/renderer.h"
 #include <assert.h>
 
 

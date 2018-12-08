@@ -88,7 +88,10 @@ void manager_refresh(manager_t *m){
             tmp = tmp->next;
 
         }
-
+        if(tmp != NULL){
+            printf("ever in here!?!?\n");
+            free(tmp);
+        }
         
     }
 }

@@ -11,55 +11,74 @@ VPATH := ./src/ ./obj/ ./includes/
 
 SRC_PATH := ./src/
 OBJ_PATH := ./obj/
-OBJ_COMP_PATH := ./obj/components/
 INC_PATH := -I ./includes
-SRC_COMP_PATH := ./src/components/
+
+COMPONENTS_SRC := ./src/components/
+
+UTILITY_SRC := ./src/utils/
 
 TARGET := ECS
 
-OBJCOMP := charge.o
 
+
+
+
+ECS_OBJS := ecs.o
+
+UTILITY_OBJS := hashmap.o \
+				vector2D.o \
+				observable.o 
+
+
+
+COMPONENT_OBJS := 	particleComponent.o \
+				  	spriteComponent.o \
+					colliderComponent.o \
+					keyboardComponent.o \
+					tileComponent.o \
+					statComponent.o \
+					textComponent.o \
+					aiComponent.o 
 
 OBJ1 := main.o \
-		entities.o \
 		transformComponent.o \
-		spriteComponent.o \
-		colliderComponent.o \
-		keyboardComponent.o \
+		entities.o \
 		manager.o \
 		renderer.o \
 		textureManager.o \
 		assetManager.o \
 		gridMap.o \
-		TerrainManager.o \
-		hashmap.o \
-		vector2D.o \
-		tileComponent.o \
-		statComponent.o \
-		textComponent.o \
-		aiComponent.o \
-		observable.o \
-		particleComponent.o
-		
-COMPOBJ := $(patsubst %, $(OBJ_COMP_PATH)%, $(OBJCOMP))
+		TerrainManager.o 
+
+UTILOBJ := $(patsubst %, $(OBJ_PATH)%, $(UTILITY_OBJS))
+
+COMPOBJ := $(patsubst %, $(OBJ_PATH)%, $(COMPONENT_OBJS))
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))
 
-$(OBJ_COMP_PATH)%.o: $(SRC_COM_PATH)%.c  
-				@echo [CC] $<
-				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
-#build .o
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c  
+
+$(OBJ_PATH)%.o: $(UTILITY_SRC)%.c  
 				@echo [CC] $<
 				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
 
+#build components.o
+$(OBJ_PATH)%.o: $(COMPONENTS_SRC)%.c  
+				@echo [CC] $<
+				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
+
+#build .o
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+				@echo [CC] $<
+				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
+
+
+
 #build final binary
-$(TARGET):	$(OBJ) $(COMPOBJ)
+$(TARGET):	 $(OBJ) $(COMPOBJ) $(UTILOBJ)
 			@$(CC) -o $@ $^ $(LINKFLAGS)
 
 #clean all files
 clean:
 		@echo "[Cleaning]"
 		-rm $(OBJ_PATH)*o
-		-rm $(OBJ_COMP_PATH)*o
 		@$(RM) -rfv $(TARGET)

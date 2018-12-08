@@ -1,5 +1,5 @@
-#include "../includes/keyboardComponent.h"
-#include "../includes/renderer.h"
+#include "../../includes/keyboardComponent.h"
+#include "../../includes/renderer.h"
 
 static int lastPosX;
 static int lastPosY;

@@ -1,5 +1,5 @@
-#include "../includes/transformComponent.h"
-#include "../includes/entities.h"
+#include "../../includes/transformComponent.h"
+#include "../../includes/entities.h"
 
 void transform_init(void *e, void *c){
     return;

@@ -1,8 +1,8 @@
-#include "../includes/textComponent.h"
-#include "../includes/textureManager.h"
-#include "../includes/statComponent.h"
-#include "../includes/entities.h"
-#include "../includes/renderer.h"
+#include "../../includes/textComponent.h"
+#include "../../includes/textureManager.h"
+#include "../../includes/statComponent.h"
+#include "../../includes/entities.h"
+#include "../../includes/renderer.h"
 #include <assert.h>
 #include <string.h>
 static void change_texture(void *c, char *text);

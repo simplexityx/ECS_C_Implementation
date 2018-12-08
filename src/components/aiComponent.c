@@ -1,7 +1,7 @@
-#include "../includes/aiComponent.h"
-#include "../includes/entities.h"
-#include "../includes/statComponent.h"
-#include "../includes/transformComponent.h"
+#include "../../includes/aiComponent.h"
+#include "../../includes/entities.h"
+#include "../../includes/statComponent.h"
+#include "../../includes/transformComponent.h"
 #include <math.h>
 #include <assert.h>
 void ai_update_patrolling_state(aiComponent_t *ai);
@@ -24,8 +24,19 @@ void ai_init(void *e, void *c){
 
 void ai_update_attacking_state(aiComponent_t *ai){
 
+    if(ai->focus == NULL){
+        printf("yo\n");
+        ai->change_state(ai, PATROL);
+        return;
+    }
     transformComponent_t *enemyPos = get_component(ai->focus, Transform);
-    assert(enemyPos != NULL);
+    if(enemyPos == NULL){
+        ai->change_state(ai, PATROL);
+        return;
+    }
+
+    assert(ai->t != NULL);
+
     if(calculate_distance(ai->t->pos, enemyPos->pos) > 200){
         ai->change_state(ai, PATROL);
         return;

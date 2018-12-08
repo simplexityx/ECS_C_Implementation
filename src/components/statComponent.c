@@ -1,4 +1,4 @@
-#include "../includes/statComponent.h"
+#include "../../includes/statComponent.h"
 #include <assert.h>
 #define INV_TIME    250
 

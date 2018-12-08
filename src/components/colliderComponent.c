@@ -1,7 +1,7 @@
-#include "../includes/colliderComponent.h"
-#include "../includes/entities.h"
-#include "../includes/statComponent.h"
-#include "../includes/headers.h"
+#include "../../includes/colliderComponent.h"
+#include "../../includes/entities.h"
+#include "../../includes/statComponent.h"
+#include "../../includes/headers.h"
 #include <assert.h>
 
 void collider_init(void *e, void *c){
