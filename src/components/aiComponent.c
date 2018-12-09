@@ -25,12 +25,12 @@ void ai_init(void *e, void *c){
 void ai_update_attacking_state(aiComponent_t *ai){
 
     if(ai->focus == NULL){
-        printf("yo\n");
         ai->change_state(ai, PATROL);
         return;
     }
     transformComponent_t *enemyPos = get_component(ai->focus, Transform);
     if(enemyPos == NULL){
+        printf("enemypos is NULL\n");
         ai->change_state(ai, PATROL);
         return;
     }

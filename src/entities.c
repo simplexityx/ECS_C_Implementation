@@ -73,8 +73,7 @@ void remove_component(entities_t *entity, compTypes_t type){
     
     assert(has_component(entity, type) == 1);
 
-    removemap(&entity->map, type);
-    free(entity->components[type]->cData);
+    entity->destroy((entity->components[type]->cData));
     free(entity->components[type]);
     entity->components[type] = NULL;
     return;
@@ -113,8 +112,9 @@ void entity_destroy(void *e){
             free(en->components[i]);
         }  
     }
-    free(en->components);
+    //free(en->components); uncomment when bug has been fixed
     free(e);
+    
 }
 
 

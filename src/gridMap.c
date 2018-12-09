@@ -5,17 +5,6 @@
 #include "../includes/renderer.h"
 #include "../includes/textComponent.h"
 #include "../includes/aiComponent.h"
-/*int AABB(colliderComponent_t *a, colliderComponent_t *b){
-
-    if(a->col.x < b->col.x  + b->col.w &&
-       a->col.x + a->col.w > b->col.x &&
-       a->col.y < b->col.y + b->col.h &&
-       a->col.y + a->col.h > b->col.y)
-    {
-        return 1;
-    }
-    return 0;
-}*/
 
 int AABB(SDL_Rect *a, SDL_Rect *b){
     if(a->x < b->x  + b->w &&
@@ -31,13 +20,18 @@ int AABB(SDL_Rect *a, SDL_Rect *b){
 }
 
 
-static int count;
 //co1 collides, co2 is the one being collided into
 //this function is fucked up must rewrite (perhaps use observables)
 void collisionReaction(void *c1, void *c2){
     colliderComponent_t *co1 = (colliderComponent_t*)c1;
     colliderComponent_t *co2 = (colliderComponent_t*)c2;
 
+    entities_t *co1Entity = co1->entity;
+    entities_t *co2Entity = co2->entity;
+
+    if(co1Entity->active == 0 || co2Entity->active == 0){
+        return;
+    }
     switch(co1->col[0].tag){
         case CREATURE:
 
@@ -59,11 +53,15 @@ void collisionReaction(void *c1, void *c2){
 
                 //set hp (-15)
                 s->set_hp(s, 15);
+
                 //if hp is less than 0 remove the entity (should move this to the stat component)
                 if(s->hp <= 0){
                         s->observable->unsubscribe(s->observable, NULL);
                         entities_t *entity = co2->entity;
                         entity->active = 0;
+                        aiComponent_t *ai = get_component(co1Entity, AI);
+                        ai->focus = NULL;
+                        return;
                 }
                 //set the reaction of the collision for both parties
                 t2->set_point(t2, pushback, DAMAGETAKING, t2->moveSpeed);
@@ -86,6 +84,7 @@ void collisionReaction(void *c1, void *c2){
                         s->observable->unsubscribe(s->observable, NULL);
                         entities_t *entity = co2->entity;
                         entity->active = 0;
+                        
                     }
                 }
                 e->active = 0;
@@ -158,6 +157,8 @@ grid_t *grid_create(){
 
 void check_collision2(grid_t *g, int x, int y, int idx){
     colliderComponent_t *c1 = g->c[x][y].elem[idx]->rect;
+    if(c1->col[0].tag == OBSTACLE || c1->col[0].tag == TERRAIN);
+        return;
     for(int i = 0; i < g->c[x][y].curSize; i++){
         colliderComponent_t *c2 = g->c[x][y].elem[i]->rect;
         if(i != idx){

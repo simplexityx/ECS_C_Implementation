@@ -1,6 +1,14 @@
 #include "../../includes/tileComponent.h"
 
 
+void tile_collide_reaction(void *tileComponent, void *entityColliding){
+
+    tileComponent_t *tile = tileComponent;
+    entities_t *e = entityColliding;
+
+}
+
+
 tileComponent_t *tile_create(tileTypes_t tile){
 
     tileComponent_t *t = malloc(sizeof(tileComponent_t));

@@ -13,17 +13,26 @@ SRC_PATH := ./src/
 OBJ_PATH := ./obj/
 INC_PATH := -I ./includes
 
+TEST_SRC := ./src/tests/
+
 COMPONENTS_SRC := ./src/components/
 
 UTILITY_SRC := ./src/utils/
 
 TARGET := ECS
 
+TEST_TARGET := ECS_TEST
 
 
 
 
 ECS_OBJS := ecs.o
+
+
+MAIN_OBJ := main.o
+
+TEST_OBJS := testRun.o
+
 
 UTILITY_OBJS := hashmap.o \
 				vector2D.o \
@@ -40,8 +49,7 @@ COMPONENT_OBJS := 	particleComponent.o \
 					textComponent.o \
 					aiComponent.o 
 
-OBJ1 := main.o \
-		transformComponent.o \
+OBJ1 := transformComponent.o \
 		entities.o \
 		manager.o \
 		renderer.o \
@@ -50,12 +58,15 @@ OBJ1 := main.o \
 		gridMap.o \
 		TerrainManager.o 
 
+TESTOBJ := $(patsubst %, $(OBJ_PATH)%, $(TEST_OBJS))
+
 UTILOBJ := $(patsubst %, $(OBJ_PATH)%, $(UTILITY_OBJS))
 
 COMPOBJ := $(patsubst %, $(OBJ_PATH)%, $(COMPONENT_OBJS))
 
 OBJ := $(patsubst %,$(OBJ_PATH)%, $(OBJ1))
 
+MAINOBJ := $(patsubst %,$(OBJ_PATH)%, $(MAIN_OBJ))
 
 $(OBJ_PATH)%.o: $(UTILITY_SRC)%.c  
 				@echo [CC] $<
@@ -71,14 +82,24 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 				@echo [CC] $<
 				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
 
+$(OBJ_PATH)%.o: $(TEST_SRC)%.c
+				@echo [CC] $<
+				@$(CC) $(CFLAGS) -o $@ -c $< $(INC_PATH)
 
+
+
+
+$(TEST_TARGET): $(TESTOBJ) $(COMPOBJ) $(UTILOBJ) $(OBJ)
+			@$(CC) -o $@ $^ $(LINKFLAGS)
 
 #build final binary
-$(TARGET):	 $(OBJ) $(COMPOBJ) $(UTILOBJ)
+$(TARGET):	 $(MAINOBJ) $(OBJ) $(COMPOBJ) $(UTILOBJ)
 			@$(CC) -o $@ $^ $(LINKFLAGS)
 
 #clean all files
 clean:
 		@echo "[Cleaning]"
 		-rm $(OBJ_PATH)*o
+		@$(RM) -rfv $(TEST_TARGET)
+
 		@$(RM) -rfv $(TARGET)

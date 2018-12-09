@@ -28,7 +28,9 @@ void manager_insert(manager_t *m, entities_t *e, Groups_t group){
     tmp->next = e;
     m->groups[group].tail = e;
     m->groups[group].currentSize++;
-
+    if(group == CREATURE){
+        printf("currently: %d\n", m->groups[group].currentSize);
+    }
     return;
 }
 
@@ -83,12 +85,12 @@ void manager_refresh(manager_t *m){
     for(int i = 0; i < MAXCOMPONENTS; i++){
         entities_t * tmp = m->groups[i].head;
         if(tmp != NULL){
+            
             while(tmp->next != NULL){
                 entities_t *tmp2 = tmp->next;
                 if(tmp->active == 0){
                     remove_entity(m, tmp, i);
                 }
-                //tmp = tmp->next;
                 tmp = tmp2;
             }
             if(tmp->active == 0){

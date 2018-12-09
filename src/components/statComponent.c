@@ -36,7 +36,7 @@ void stat_unsubscribe(void *observable, void *observer){
 }
 
 void stat_set_hp(void *component, int hp){
-
+    //calculate defending input is pure raw damage from source.
     statComponent_t *s = (statComponent_t *)component;
     if(s->invincible == 1){
         return;
@@ -57,7 +57,7 @@ void stat_set_hp(void *component, int hp){
 statComponent_t *stat_create(short hp, short strength, short mana){
     statComponent_t *s = malloc(sizeof(statComponent_t));
     assert(s != NULL);
-
+    s->level = 1;
     s->hp = hp;
     s->strength = strength;
     s->mana = mana;
@@ -66,6 +66,8 @@ statComponent_t *stat_create(short hp, short strength, short mana){
     s->timerId = -1;
     s->visionRange = 200;
     s->observable = observable_create(stat_subscribe, stat_unsubscribe);
+    s->temperature = 30;
+    s->fireRes = 0;
     return s;
 }
 

@@ -28,6 +28,7 @@ void transform_destroy(void *c){
     transformComponent_t *t = (transformComponent_t *)c;
     SDL_RemoveTimer(t->timerId);
     free(t);
+    
 }
 
 void set_transform_speed(void *c, int x, int y){

@@ -3,8 +3,11 @@
 
 #include "headers.h"
 
+typedef void (*colliding_reaction_t)(void *, void*);
+
 struct tileComponent{
     tileTypes_t tileType;
+    colliding_reaction_t colReact;
 };
 
 tileComponent_t *tile_create(tileTypes_t type);

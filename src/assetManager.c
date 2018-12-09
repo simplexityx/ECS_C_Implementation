@@ -83,6 +83,8 @@ void am_obstacle_create( Vector2D_t pos, int speed, const char* filepath){
 
     add_component(entity, COLLIDER_COMPONENT(OBSTACLE, 0));
 
+    add_component(entity, STAT_COMPONENT(10000, 0, 0));
+
     manager_insert(manager, entity, OBSTACLE);
 }
 
