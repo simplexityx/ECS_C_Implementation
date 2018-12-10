@@ -10,7 +10,7 @@ int main(){
     while(r->running != 0){
 
         eventHandler(r);
-        update();
+        update(r);
         draw();
        
     }

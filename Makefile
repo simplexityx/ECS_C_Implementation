@@ -89,8 +89,8 @@ $(OBJ_PATH)%.o: $(TEST_SRC)%.c
 
 
 
-$(TEST_TARGET): $(TESTOBJ) $(COMPOBJ) $(UTILOBJ) $(OBJ)
-			@$(CC) -o $@ $^ $(LINKFLAGS)
+#$(TEST_TARGET): $(TESTOBJ) $(COMPOBJ) $(UTILOBJ) $(OBJ)
+#			@$(CC) -o $@ $^ $(LINKFLAGS)
 
 #build final binary
 $(TARGET):	 $(MAINOBJ) $(OBJ) $(COMPOBJ) $(UTILOBJ)
@@ -101,5 +101,4 @@ clean:
 		@echo "[Cleaning]"
 		-rm $(OBJ_PATH)*o
 		@$(RM) -rfv $(TEST_TARGET)
-
 		@$(RM) -rfv $(TARGET)

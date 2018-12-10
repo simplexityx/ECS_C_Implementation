@@ -5,6 +5,8 @@
 #include "AssetManager.h"
 #include <SDL2/SDL_ttf.h>
 
+int gameWon;
+
 typedef struct renderer{
     SDL_Renderer *renderer;
     SDL_Window *win;
@@ -23,7 +25,7 @@ renderer_t *renderer_create();
 
 void renderer_init(const char *title, int xpos, int ypos, int screenWidth, int screenHeight, renderer_t *r);
 
-void update();
+void update(renderer_t *r);
 
 void draw();
 

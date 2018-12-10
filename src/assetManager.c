@@ -8,7 +8,7 @@
 #define SPRITE_COMPONENT(filepath, flags)          component_create(sprite_create(filepath, flags), sprite_init, sprite_update, sprite_draw, sprite_destroy, Sprite)
 #define COLLIDER_COMPONENT(tag, flags)             component_create(collider_create(tag, flags), collider_init, collider_update, collider_draw, collider_destroy, Collision)
 #define STAT_COMPONENT(hp, strength, mana)         component_create(stat_create(hp, strength, mana), stat_init, stat_update, stat_draw, stat_destroy, Stat)
-#define AI_COMPONENT(node1, node2)                 component_create(ai_create(node1, node2), ai_init, ai_update, ai_draw, ai_destroy, AI)
+#define AI_COMPONENT(entity)                 component_create(ai_create(entity), ai_init, ai_update, ai_draw, ai_destroy, AI)
 #define KEYBOARD_COMPONENT                         component_create(keyboard_create(), keyboard_init, keyboard_update, keyboard_draw, keyboard_destroy, KeyBoard)
 #define TILE_COMPONENT(type)                       component_create(tile_create(type), tile_init, tile_update, tile_draw, tile_destroy, Tile)
 #define TEXT_COMPONENT(characters)                 component_create(text_create(characters), text_init, text_update, text_draw, text_destroy, Text)
@@ -31,7 +31,7 @@ unsigned long hash_string(void *str)
 }
 
 
-void am_bear_create(Vector2D_t pos, int speed, const char *filepath, Vector2D_t node1, Vector2D_t node2){
+void am_bear_create(Vector2D_t pos, int speed, const char *filepath){
     entities_t *entity = entities_create();
     
     
@@ -43,7 +43,7 @@ void am_bear_create(Vector2D_t pos, int speed, const char *filepath, Vector2D_t 
 
     add_component(entity, STAT_COMPONENT(100, 20, 100));
 
-    add_component(entity, AI_COMPONENT(node1, node2));
+    add_component(entity, AI_COMPONENT(get_group(manager, GOAL)));
 
     manager_insert(manager, entity, CREATURE);
 
@@ -143,6 +143,21 @@ void am_create_particles(Vector2D_t pos, int amountOfParticles){
     
 }
 
+void am_create_goal(Vector2D_t pos){
+
+
+    entities_t *entity = entities_create();
+
+    add_component(entity, TRANSFORM_COMPONENT(pos, Vector2(0,0), 0));
+
+    add_component(entity, SPRITE_COMPONENT("goal", NOTANIMATED));
+
+    add_component(entity, COLLIDER_COMPONENT(GOAL, 0));
+
+    manager_insert(manager, entity, GOAL);
+
+}
+
 void destroy_tex_map(void *t){
     SDL_Texture *tex = (SDL_Texture *)t;
     SDL_DestroyTexture(tex);
@@ -181,6 +196,7 @@ assetManager_t *assetManager_create(){
     a->create_bear = am_bear_create;
     a->add_tex = add_texture;
     a->get_tex = get_texture;
+    a->create_goal = am_create_goal;
     a->create_text = am_text_create;
     a->generate_particles = am_create_particles;
     return a;

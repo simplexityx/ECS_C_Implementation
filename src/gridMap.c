@@ -32,8 +32,15 @@ void collisionReaction(void *c1, void *c2){
     if(co1Entity->active == 0 || co2Entity->active == 0){
         return;
     }
+    
     switch(co1->col[0].tag){
         case CREATURE:
+
+            if(co2->col[0].tag == GOAL){
+                gameWon = 1;
+                printf("you lost!\n");
+                return;
+            }
 
             if(co2->col[0].tag == CREATURE || co2->col[0].tag == PLAYER){
                 transformComponent_t *t1 = get_component(co1->entity, Transform);
@@ -56,11 +63,11 @@ void collisionReaction(void *c1, void *c2){
 
                 //if hp is less than 0 remove the entity (should move this to the stat component)
                 if(s->hp <= 0){
-                        s->observable->unsubscribe(s->observable, NULL);
+                       // s->observable->unsubscribe(s->observable, NULL);
                         entities_t *entity = co2->entity;
                         entity->active = 0;
                         aiComponent_t *ai = get_component(co1Entity, AI);
-                        ai->focus = NULL;
+                        ai->change_state(ai, GOING_FOR_GOAL);
                         return;
                 }
                 //set the reaction of the collision for both parties
@@ -76,14 +83,15 @@ void collisionReaction(void *c1, void *c2){
                 if(has_component(co2->entity, Stat) == 1){
 
                     statComponent_t *s = get_component(co2->entity, Stat);
-                    textComponent_t *text = get_component(enemy_hp_bar, Text);
+                    //textComponent_t *text = get_component(enemy_hp_bar, Text);
 
-                    s->observable->subscribe(s, text->observer);
+                    //s->observable->subscribe(s, text->observer);
                     s->set_hp(s, 15);
                     if(s->hp <= 0){
-                        s->observable->unsubscribe(s->observable, NULL);
+                        //s->observable->unsubscribe(s->observable, NULL);
                         entities_t *entity = co2->entity;
                         entity->active = 0;
+
                         
                     }
                 }
@@ -95,8 +103,6 @@ void collisionReaction(void *c1, void *c2){
             
             if(has_component(co2->entity, Tile) > 0){
                 tileComponent_t *tile = (tileComponent_t *)get_component(co2->entity, Tile);
-                if(tile == NULL)
-                    return;
                 spriteComponent_t *s = (spriteComponent_t *)get_component(co1->entity, Sprite);
                 if(tile->tileType == WATER){
                     s->set_tex(s, "boat");
@@ -122,7 +128,8 @@ void trigger_reaction(colliderComponent_t *c1, colliderComponent_t *c2){
         return;
     }
     aiComponent_t *ai = get_component(c1->entity, AI);
-
+    assert(c2 != NULL);
+    assert(ai != NULL);
     if(ai->focus == c2->entity)
         return;
 
@@ -157,8 +164,8 @@ grid_t *grid_create(){
 
 void check_collision2(grid_t *g, int x, int y, int idx){
     colliderComponent_t *c1 = g->c[x][y].elem[idx]->rect;
-    if(c1->col[0].tag == OBSTACLE || c1->col[0].tag == TERRAIN);
-        return;
+    //if(c1->col[0].tag == OBSTACLE || c1->col[0].tag == TERRAIN);
+       //return;
     for(int i = 0; i < g->c[x][y].curSize; i++){
         colliderComponent_t *c2 = g->c[x][y].elem[i]->rect;
         if(i != idx){

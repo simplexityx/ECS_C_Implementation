@@ -6,6 +6,13 @@ void tile_collide_reaction(void *tileComponent, void *entityColliding){
     tileComponent_t *tile = tileComponent;
     entities_t *e = entityColliding;
 
+    if(tile->tileType == GRASS){
+        return;
+    }
+
+    
+
+
 }
 
 

@@ -12,12 +12,12 @@ void ai_init(void *e, void *c){
     ai->t = (transformComponent_t *)get_component(e, Transform);
     ai->s = (statComponent_t *)get_component(e, Stat);
     ai->homePoint = ai->t->pos;
-    /*ai->path[0].x = ai->t->pos.x + 150;
-    ai->path[0].y = ai->t->pos.y + 150;
+    ai->path[0].x = ai->t->pos.x + 50;
+    ai->path[0].y = ai->t->pos.y + 50;
     
     ai->path[1].x = ai->t->pos.x - 50;
     ai->path[1].y = ai->t->pos.y - 50;
-    */
+    
 
     return;
 }
@@ -25,20 +25,21 @@ void ai_init(void *e, void *c){
 void ai_update_attacking_state(aiComponent_t *ai){
 
     if(ai->focus == NULL){
-        ai->change_state(ai, PATROL);
+        ai->change_state(ai, GOING_FOR_GOAL);
         return;
     }
     transformComponent_t *enemyPos = get_component(ai->focus, Transform);
     if(enemyPos == NULL){
         printf("enemypos is NULL\n");
-        ai->change_state(ai, PATROL);
+        ai->change_state(ai, GOING_FOR_GOAL);
         return;
     }
 
     assert(ai->t != NULL);
+    
 
     if(calculate_distance(ai->t->pos, enemyPos->pos) > 200){
-        ai->change_state(ai, PATROL);
+        ai->change_state(ai, GOING_FOR_GOAL);
         return;
     }
     ai->t->set_point(ai->t, enemyPos->pos, ATTACKING, ai->t->moveSpeed);
@@ -57,6 +58,13 @@ void ai_update_patrolling_state(aiComponent_t *ai){
    
     
     
+    return;
+}
+
+void ai_update_walk_towards_goal_state(aiComponent_t *ai){
+    ai->focus = ai->goal;
+    transformComponent_t *goalPos = get_component(ai->focus, Transform);
+    ai->t->set_point(ai->t, goalPos->pos, MOVING, ai->t->moveSpeed);
     return;
 }
 
@@ -90,6 +98,11 @@ void ai_change_state(aiComponent_t *ai, states_t state){
         case ATTACK:
             ai->ai_state = ai_update_attacking_state;
             break;
+
+        case GOING_FOR_GOAL:
+            ai->ai_state = ai_update_walk_towards_goal_state;
+            break;
+
         default:
             break;
     }
@@ -97,16 +110,15 @@ void ai_change_state(aiComponent_t *ai, states_t state){
 }
 
 
-aiComponent_t *ai_create(Vector2D_t pathNode1, Vector2D_t pathNode2){
+aiComponent_t *ai_create(entities_t *goalEntity){
 
     aiComponent_t *ai = malloc(sizeof(aiComponent_t));
     assert(ai != NULL);
-
-    ai->focus = NULL;
+    ai->goal = goalEntity;
+    ai->focus = goalEntity;
     ai->change_state = ai_change_state;
-    ai->ai_state = ai_update_patrolling_state;
+    ai->ai_state = ai_update_walk_towards_goal_state;
     ai->pathn = 0;
-    ai->path[0] = pathNode1;
-    ai->path[1] = pathNode2;
+   
     return ai;
 }

@@ -6,7 +6,8 @@
 typedef enum states{
     PATROL,
     ATTACK,
-    HOME
+    HOME,
+    GOING_FOR_GOAL
 }states_t;
 
 
@@ -20,7 +21,7 @@ typedef void (*ai_state_t)(aiComponent_t *);
 
 
 struct aiComponent{
-    entities_t *focus;
+    entities_t *focus, *goal;
     transformComponent_t *t;
     statComponent_t *s;
     ai_state_t ai_state;
@@ -31,7 +32,7 @@ struct aiComponent{
 };
 
 
-aiComponent_t *ai_create(Vector2D_t pathNode1, Vector2D_t pathNode2);
+aiComponent_t *ai_create(entities_t *goalEntity);
 
 void ai_init(void *e, void *c);
 void ai_update(void *c);

@@ -16,7 +16,6 @@ void ParseLevel(char *filepath){
             switch(k){
                 case GRASS:
                     assetmanager->create_tile(Vector2(x * 32, y * 32), "grass", GRASS);
-
                     break;
                 case WATER:
                     assetmanager->create_tile(Vector2(x * 32, y * 32), "water", WATER);

@@ -10,8 +10,8 @@ typedef void(*create_tile_t)(Vector2D_t, const char*,  tileTypes_t tileType);
 typedef SDL_Texture * (*get_texture_t)(char *);
 typedef void (*add_texture_t)( char *, char *);
 typedef void (*generate_particles_t)(Vector2D_t, int);
-typedef void (*create_ai_t)(Vector2D_t, int, const char*, Vector2D_t, Vector2D_t);
-
+typedef void (*create_ai_t)(Vector2D_t, int, const char*);
+typedef void (*create_goal_t)(Vector2D_t);
 
 typedef void (*create_text_t)(Vector2D_t, char *);
 
@@ -24,6 +24,7 @@ struct assetManager{
     create_bullet_t create_projectile;
     create_tile_t create_tile;
 
+    create_goal_t create_goal;
     create_text_t create_text;
     
     generate_particles_t generate_particles;
@@ -31,6 +32,7 @@ struct assetManager{
     add_texture_t add_tex;
     get_texture_t get_tex;
 
+    
 };
 
 
